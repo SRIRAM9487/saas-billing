@@ -5,21 +5,41 @@ import java.util.UUID;
 
 import com.saas.billing_system.shared.context.UserContextHolder;
 
+import org.springframework.http.HttpMethod;
+
 public abstract class BaseException extends RuntimeException {
 
-  private final String message;
   private final String logMessage;
   private final UUID userId;
-  private final UUID tenantId;
   private final LocalDateTime exceptionTime;
+  private final String code;
 
-  public BaseException(String message,String logMessage) {
+  public BaseException(
+      String message,
+      String logMessage,
+      String code) {
     super(message);
-    this.message = message;
-    this.userId = UserContextHolder.getUserId();
-    this.tenantId = UserContextHolder.getTenantId();
-    this.exceptionTime = LocalDateTime.now();
     this.logMessage = logMessage;
+    this.code = code;
+    this.userId = UserContextHolder.getUserId();
+    this.exceptionTime = LocalDateTime.now();
+  }
+
+  public String getLogMessage() {
+    return logMessage;
+  }
+
+
+  public UUID getUserId() {
+    return userId;
+  }
+
+  public LocalDateTime getExceptionTime() {
+    return exceptionTime;
+  }
+
+  public String getCode() {
+    return code;
   }
 
 }

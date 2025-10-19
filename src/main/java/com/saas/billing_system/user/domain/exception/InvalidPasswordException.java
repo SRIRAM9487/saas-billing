@@ -2,39 +2,50 @@ package com.saas.billing_system.user.domain.exception;
 
 import com.saas.billing_system.shared.exception.BaseException;
 
+
 public class InvalidPasswordException extends BaseException {
 
-  private InvalidPasswordType type;
+  public InvalidPasswordException(String message, String logMessage, String code) {
+    super(message, logMessage,  code);
+  }
 
-  public InvalidPasswordException(String message,
-      String logMessage,
-      InvalidPasswordType type) {
-    super(message, logMessage);
-    this.type = type;
+  public static InvalidPasswordException create(String message, String logMessage, String code) {
+    return new InvalidPasswordException(message, logMessage,  code);
   }
 
   public static InvalidPasswordException requireAtleastOneLowerCaseLetter() {
-    return new InvalidPasswordException("Require atleast one lower case letter present in the password", "",
-        InvalidPasswordType.ATLEAST_ONE_LOWERCASE_LETTER);
+    return create(
+        "Require atleast one lower case letter present in the password",
+        InvalidPasswordType.ATLEAST_ONE_LOWERCASE_LETTER.getMessage(),
+        InvalidPasswordType.ATLEAST_ONE_LOWERCASE_LETTER.name());
   }
 
   public static InvalidPasswordException requireAtleastOneCapitalLetter() {
-    return new InvalidPasswordException("Require atleast one Capital present in the password", "",
-        InvalidPasswordType.ATLEAST_ONE_CAPITAL_LETTER);
+    return create(
+        "Require atleast one Capital present in the password",
+        InvalidPasswordType.ATLEAST_ONE_CAPITAL_LETTER.getMessage(),
+        InvalidPasswordType.ATLEAST_ONE_CAPITAL_LETTER.name());
   }
 
   public static InvalidPasswordException requireAtleastOneNumber() {
-    return new InvalidPasswordException("Require atleast one Number present in the password", "",
-        InvalidPasswordType.ATLEAST_ONE_NUMBER);
+    return create(
+        "Require atleast one Number present in the password",
+        InvalidPasswordType.ATLEAST_ONE_NUMBER.getMessage(),
+        InvalidPasswordType.ATLEAST_ONE_NUMBER.name());
   }
 
   public static InvalidPasswordException requireAtleastEightCharacter() {
-    return new InvalidPasswordException("Require atleast Eight character present in the password", "",
-        InvalidPasswordType.ATLEAST_EIGHT_CHARACTERS);
+    return create(
+        "Require atleast Eight character present in the password",
+        InvalidPasswordType.ATLEAST_EIGHT_CHARACTERS.getMessage(),
+        InvalidPasswordType.ATLEAST_EIGHT_CHARACTERS.name());
   }
 
   public static InvalidPasswordException isEmpty() {
-    return new InvalidPasswordException("Password is Empty.", "", InvalidPasswordType.EMPTY_PASSWORD);
+    return create(
+        "Password is Empty.",
+        InvalidPasswordType.EMPTY_PASSWORD.getMessage(),
+        InvalidPasswordType.EMPTY_PASSWORD.name());
   }
 
 }

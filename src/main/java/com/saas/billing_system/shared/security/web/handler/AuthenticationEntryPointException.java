@@ -2,13 +2,21 @@ package com.saas.billing_system.shared.security.web.handler;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saas.billing_system.shared.dto.response.ApiExceptionDto;
+import com.saas.billing_system.shared.exception.UnAuthorizedException;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class AuthenticationEntryPointException implements AuthenticationEntryPoint {
 
   @Override
@@ -18,6 +26,7 @@ public class AuthenticationEntryPointException implements AuthenticationEntryPoi
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     response.setContentType("application/json");
 
+    new ObjectMapper().writeValue(response.getWriter(), ApiExceptionDto.create(UnAuthorizedException.create()));
   }
 
 }
