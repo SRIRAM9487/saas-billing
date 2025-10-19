@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+
+spring:
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/billing_db
+    username: root
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernat:
+      ddl-auto: create-delete
+    properties:
+      hibernate:
+        format_sql: true;
+
+  security:
+    user:
+      name: user1
+      password: user1
