@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import com.saas.billing_system.shared.context.UserContextHolder;
 
-import org.springframework.http.HttpMethod;
-
 public abstract class BaseException extends RuntimeException {
 
   private final String logMessage;
@@ -28,7 +26,6 @@ public abstract class BaseException extends RuntimeException {
   public String getLogMessage() {
     return logMessage;
   }
-
 
   public UUID getUserId() {
     return userId;
