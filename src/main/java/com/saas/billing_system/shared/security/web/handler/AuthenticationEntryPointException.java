@@ -3,11 +3,10 @@ package com.saas.billing_system.shared.security.web.handler;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.saas.billing_system.shared.context.UserContextHolder;
 import com.saas.billing_system.shared.dto.response.ApiExceptionDto;
 import com.saas.billing_system.shared.exception.UnAuthorizedException;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -19,14 +18,23 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class AuthenticationEntryPointException implements AuthenticationEntryPoint {
 
+  private String type;
+
   @Override
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
       throws IOException, ServletException {
 
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-    response.setContentType("application/json");
+    type = "application/json";
+    response.setContentType(type);
+    
 
-    new ObjectMapper().writeValue(response.getWriter(), ApiExceptionDto.create(UnAuthorizedException.create()));
+    if (UserContextHolder.getUserId() != null) {
+      new ObjectMapper().writeValue(response.getWriter(), ApiExceptionDto.create(UnAuthorizedException.create()));
+    } else {
+      new ObjectMapper().writeValue(response.getWriter(),
+          ApiExceptionDto.unAuthorized(UnAuthorizedException.userIdMissing()));
+    }
   }
 
 }

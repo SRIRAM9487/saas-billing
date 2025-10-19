@@ -15,4 +15,10 @@ public class UnAuthorizedException extends BaseException {
         "Invalid User Name or Password");
   }
 
+  public static UnAuthorizedException userIdMissing() {
+    return new UnAuthorizedException(
+        "Authorization failed",
+        "User id missing",
+        "User id missing");
+  }
 }

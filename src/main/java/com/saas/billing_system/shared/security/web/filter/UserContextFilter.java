@@ -23,16 +23,16 @@ public class UserContextFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
 
     String userId = request.getHeader("userId");
-
     UserContext userContext = UserContext
         .builder()
-        .userId(UUID.fromString(userId))
-        .path(request.getPathInfo())
+        .path(request.getRequestURI())
         .method(HttpMethod.valueOf(request.getMethod()))
         .build();
 
-    UserContextHolder.set(userContext);
+    if (userId != null && !userId.isEmpty())
+      userContext.setUserId(UUID.fromString(userId));
 
+    UserContextHolder.set(userContext);
     filterChain.doFilter(request, response);
   }
 

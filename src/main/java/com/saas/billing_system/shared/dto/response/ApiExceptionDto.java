@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 
 public record ApiExceptionDto(
     boolean success,
-    HttpMethod method,
+    String method,
     HttpStatus status,
-    LocalDateTime timeStamp,
+    String  timeStamp,
     String path,
     String message,
     String code) {
@@ -21,9 +21,9 @@ public record ApiExceptionDto(
   public static ApiExceptionDto create(HttpMethod method, HttpStatus status, String message, String code) {
     return new ApiExceptionDto(
         false,
-        method,
+        method.name(),
         status,
-        LocalDateTime.now(),
+        LocalDateTime.now().toString(),
         UserContextHolder.getPath(),
         message,
         code);
@@ -32,9 +32,9 @@ public record ApiExceptionDto(
   public static ApiExceptionDto create(BaseException exception) {
     return new ApiExceptionDto(
         false,
-        UserContextHolder.getMethod(),
+        UserContextHolder.getMethod().name(),
         null,
-        LocalDateTime.now(),
+        LocalDateTime.now().toString(),
         Optional.ofNullable(UserContextHolder.getPath()).orElse("N/A"),
         exception.getMessage(),
         exception.getCode());
@@ -43,9 +43,9 @@ public record ApiExceptionDto(
   public static ApiExceptionDto create(BaseException exception, HttpStatus status) {
     return new ApiExceptionDto(
         false,
-        UserContextHolder.getMethod(),
+        UserContextHolder.getMethod().name(),
         status,
-        LocalDateTime.now(),
+        LocalDateTime.now().toString(),
         Optional.ofNullable(UserContextHolder.getPath()).orElse("N/A"),
         exception.getMessage(),
         exception.getCode());

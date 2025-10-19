@@ -20,3 +20,7 @@ spring:
     user:
       name: user1
       password: user1
+
+logging:
+  level: 
+    com.saas.billing_system.shared.context: TRACE
