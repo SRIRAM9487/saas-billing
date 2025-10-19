@@ -36,7 +36,7 @@ public class WebSecurityConfig {
         .accessDeniedHandler(accessDeniedHandlerException)
         .authenticationEntryPoint(authenticationEntryPoint));
 
-    httpSecurity.authorizeHttpRequests(http -> http
+   httpSecurity.authorizeHttpRequests(http -> http
         .requestMatchers(HttpMethod.GET, RequestConstant.allowedGetPath)
         .permitAll()
         .requestMatchers(HttpMethod.POST, RequestConstant.loginPath)

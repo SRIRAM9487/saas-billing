@@ -3,6 +3,7 @@ package com.saas.billing_system.user.domain.entity;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.saas.billing_system.shared.domain.SoftDelete;
 import com.saas.billing_system.user.domain.vo.Password;
 import com.saas.billing_system.user.domain.vo.UserId;
 
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @Table(name = "Users")
-public class UserImpl implements UserDetails {
+public class UserImpl extends SoftDelete implements UserDetails {
 
   @EmbeddedId
   private UserId id;

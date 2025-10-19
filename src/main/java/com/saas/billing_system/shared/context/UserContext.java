@@ -5,6 +5,15 @@ import java.util.UUID;
 public class UserContext {
   private UUID userId;
   private UUID tenantId;
+  private String path;
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
+  }
 
   public UUID getUserId() {
     return userId;

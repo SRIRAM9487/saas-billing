@@ -25,4 +25,8 @@ public class UserContextHolder {
   public static UUID getTenantId(){
     return CONTEXT.get().getTenantId();
   }
+  public static String getPath(){
+    return CONTEXT.get().getPath();
+  }
+
 }
