@@ -10,16 +10,16 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public record Password(String hash) {
 
-  private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+  private static PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder(12);
 
   public Password {
     isValid(hash);
-    hash = passwordEncoder.encode(hash);
+    hash = PASSWORD_ENCODER.encode(hash);
   }
 
   private boolean isValid(String hash) {
 
-    if (hash.isEmpty())
+    if (hash.isEmpty() || hash == null)
       throw InvalidPasswordException.isEmpty();
 
     if (hash.length() < 8)
@@ -36,8 +36,9 @@ public record Password(String hash) {
 
     return true;
   }
-  public static boolean matches(String rawPassword){
-    return passwordEncoder.matches(rawPassword, this.hash);
+
+  public static Password create(String password){
+    return new Password(password);
   }
 
 }

@@ -130,7 +130,7 @@ public class UserImpl implements UserDetails {
   }
 
   public void changePassword(String password) {
-    this.password = Password.create(password);
+    this.createPassword(password);
   }
 
   public void createPassword(String password) {
