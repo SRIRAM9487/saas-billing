@@ -108,6 +108,10 @@ public class User {
     this.password = Password.create(password);
   }
 
+  public void verifyEmail() {
+    this.verfied = VerifiedType.VERIFIED;
+  }
+
   public void updateEmail(String email) {
     this.email = Email.create(email);
   }

@@ -79,4 +79,10 @@ public class EmailException extends BaseException {
         EmailExceptionType.INVALID_DOMAIN_FORMAT.name());
   }
 
+  public static EmailException verificationFailedInvalidOtp(String email) {
+    return new EmailException(
+        EmailExceptionType.INVALID_EMAIL_OTP.getMessage(),
+        "Invalid otp for the email verification" + email,
+        EmailExceptionType.INVALID_EMAIL_OTP.name());
+  }
 }

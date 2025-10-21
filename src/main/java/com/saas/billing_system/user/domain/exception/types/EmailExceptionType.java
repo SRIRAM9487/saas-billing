@@ -12,7 +12,10 @@ public enum EmailExceptionType {
   INVALID_DOMAIN_CHARS("Domain part contains invalid characters."),
   INVALID_DOMAIN_FORMAT("Domain format is invalid or incomplete (e.g., missing TLD)."),
   MISSING_TLD("Email domain is missing a top-level domain (e.g., '.com')."),
-  EMPTY_EMAIL("Email cannot be null or empty.");
+  EMPTY_EMAIL("Email cannot be null or empty."),
+
+  INVALID_EMAIL_OTP("Invalid otp")
+  ;
 
   private final String message;
 

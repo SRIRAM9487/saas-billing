@@ -1,7 +1,6 @@
 package com.saas.billing_system.user.application.usecase;
 
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
-import com.saas.billing_system.user.application.event.EmailVerificationEvent;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
@@ -26,6 +25,7 @@ public class UserRegistrationUseCase {
     User newUser = UserRegisterRequestDto.toUser(userRegisterRequestDto);
     User savedUser = userRepository.save(newUser);
     log.trace("User Registration successfull {}", savedUser);
+    
     //applicationEventPublisher.publishEvent(new EmailVerificationEvent(this, savedUser.getEmail().value(),savedUser.getUserName()));
     return savedUser;
   }
