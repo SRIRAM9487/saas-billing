@@ -27,6 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     log.trace("Authenticating User : " + username);
     User existingUser = findUserById(username).orElseThrow();
+    log.trace("User found" + username);
     return new UserImpl(existingUser);
   }
 

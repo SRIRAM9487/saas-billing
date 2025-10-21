@@ -20,4 +20,8 @@ public record Email(@Column(name = "email", nullable = false) String value) {
     return true;
   }
 
+  public static Email create(String email){
+    return new Email(email);
+
+  }
 }

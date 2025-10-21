@@ -2,6 +2,7 @@ package com.saas.billing_system.user.domain.entity;
 
 import com.saas.billing_system.user.domain.vo.Email;
 import com.saas.billing_system.user.domain.vo.Password;
+import com.saas.billing_system.user.domain.vo.PhoneNumber;
 import com.saas.billing_system.user.domain.vo.UserId;
 
 import jakarta.persistence.Column;
@@ -36,6 +37,9 @@ public class User {
   @Embedded
   private Email email;
 
+  @Embedded
+  private PhoneNumber phone;
+
   @Column(name = "role", nullable = false)
   private UserRole role;
 
@@ -51,12 +55,14 @@ public class User {
   @Column(name = "account_non_expired")
   private boolean accountNonExpired;
 
-  public static User createTenant(String userName, String password) {
+  public static User createTenant(String userName, String password, String email, double number) {
     return User
         .builder()
         .id(UserId.create())
         .userName(userName)
         .password(Password.create(password))
+        .email(Email.create(email))
+        .phone(PhoneNumber.create(number))
         .role(UserRole.TENANT)
         .enabled(true)
         .accountNonLocked(true)
