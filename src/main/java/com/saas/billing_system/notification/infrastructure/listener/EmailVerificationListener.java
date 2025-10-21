@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import jakarta.mail.internet.MimeMessage;
@@ -27,6 +27,7 @@ public class EmailVerificationListener {
   private final String from = "sriram9487tk@gmail.com";
 
   @EventListener
+  @Async
   public void sendVerificationEmail(EmailVerificationEvent event) {
     String email = event.getEmail();
     String userId = event.getUserId();
@@ -41,7 +42,7 @@ public class EmailVerificationListener {
       String htmlTemplate = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
 
       String htmlContent = htmlTemplate.replace("https://yourapp.com/verify?token=dummy123",
-          "http://localhost:8080/user/email/verify?token=" + verificationToken);
+          "http://localhost:8080/user/email/verify?token=" + verificationToken + "&email=" + email);
 
       log.trace("Html template is  loaded");
       MimeMessage message = javaMailSender.createMimeMessage();
@@ -55,7 +56,7 @@ public class EmailVerificationListener {
       javaMailSender.send(message);
       log.trace("Verification Email Sent for {}", userId);
     } catch (Exception e) {
-      log.error("Error : {}",e.toString());
+      log.error("Error : {}", e.toString());
       throw GMailException.failed();
     }
   }

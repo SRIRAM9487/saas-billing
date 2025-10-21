@@ -44,7 +44,7 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.CREATED).body(UserRegistrationResponseDto.fromUser(user));
   }
 
-  @PatchMapping("/email/verify")
+  @GetMapping("/email/verify")
   public ResponseEntity<?> verifyEmail(@RequestParam("token") String token, @RequestParam("email") String email) {
     log.debug("Email Verify Api called");
     log.trace("Request payload token : {} email : {}", token, email);
@@ -53,7 +53,7 @@ public class UserController {
     return ResponseEntity.ok(UserEmailVerificationResponseDto.success(email));
   }
 
-  @GetMapping("/email/verify")
+  @PatchMapping("/email/verify")
   public ResponseEntity<?> generateEmailVerification(@RequestParam("email") String email) {
     log.debug("Email Verification Request Api called");
     log.trace("Request payload  email : {}", email);
