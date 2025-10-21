@@ -1,6 +1,6 @@
 package com.saas.billing_system.user.domain.vo;
 
-import com.saas.billing_system.user.domain.exception.InvalidEmailException;
+import com.saas.billing_system.user.domain.exception.EmailException;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -10,7 +10,7 @@ public record Email(@Column(name = "email", nullable = false) String value) {
 
   public Email {
     if (value == null || value.isBlank()) {
-      throw InvalidEmailException.empty();
+      throw EmailException.empty();
     }
   }
 

@@ -1,6 +1,6 @@
-package com.saas.billing_system.user.domain.exception;
+package com.saas.billing_system.user.domain.exception.types;
 
-public enum InvalidEmailTypes {
+public enum EmailExceptionType {
 
   MISSING_AT_SYMBOL("Email must contain '@' symbol."),
   MULTIPLE_AT_SYMBOLS("Email must contain only one '@' symbol."),
@@ -23,7 +23,7 @@ public enum InvalidEmailTypes {
 
   private final String message;
 
-  InvalidEmailTypes(String message) {
+  EmailExceptionType(String message) {
     this.message = message;
   }
 

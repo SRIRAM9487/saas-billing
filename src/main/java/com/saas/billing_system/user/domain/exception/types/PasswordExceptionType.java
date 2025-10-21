@@ -1,6 +1,6 @@
-package com.saas.billing_system.user.domain.exception;
+package com.saas.billing_system.user.domain.exception.types;
 
-public enum InvalidPasswordType {
+public enum PasswordExceptionType {
 
   ATLEAST_ONE_LOWERCASE_LETTER("Password must contain at least one lowercase letter."),
   ATLEAST_ONE_CAPITAL_LETTER("Password must contain at least one uppercase letter."),
@@ -10,7 +10,7 @@ public enum InvalidPasswordType {
 
   private final String message;
 
-  InvalidPasswordType(String message) {
+  PasswordExceptionType(String message) {
     this.message = message;
   }
 
