@@ -6,7 +6,6 @@ import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -17,16 +16,19 @@ public class UserRegistrationUseCase {
 
   private final UserRepository userRepository;
   private final Logger log = LoggerFactory.getLogger(UserRegistrationUseCase.class);
-  private final ApplicationEventPublisher applicationEventPublisher;
+  private final UserEmailVerificationUseCase userEmailVerificationUseCase;
 
   public User register(UserRegisterRequestDto userRegisterRequestDto) {
+
     log.debug("Executing User Registration usecase");
     log.trace("User Register Dto : {}", userRegisterRequestDto);
     User newUser = UserRegisterRequestDto.toUser(userRegisterRequestDto);
     User savedUser = userRepository.save(newUser);
     log.trace("User Registration successfull {}", savedUser);
-    
-    //applicationEventPublisher.publishEvent(new EmailVerificationEvent(this, savedUser.getEmail().value(),savedUser.getUserName()));
+
+    // Email Verification event
+    userEmailVerificationUseCase.generateVerificationToken(savedUser.getEmail().value());
+
     return savedUser;
   }
 

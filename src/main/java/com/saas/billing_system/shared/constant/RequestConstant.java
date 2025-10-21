@@ -2,7 +2,10 @@ package com.saas.billing_system.shared.constant;
 
 public class RequestConstant {
 
-  public static String[] allowedGetPath = { "/user/register","/user/server" };
+  public static String[] getPaths = { "/user/server" ,"/user/email/verify"};
 
-  public static String[] loginPath = { "/login", "/logout", "/user/register" };
+  public static String[] postPaths = { "/user/register" };
+
+  public static String[] patchPaths = { "/user/email/verify" };
+
 }

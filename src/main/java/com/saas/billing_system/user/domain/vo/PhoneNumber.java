@@ -27,15 +27,16 @@ public record PhoneNumber(@Column(name = "phone", nullable = false) String value
     String countryCode = "";
     String localNumber = "";
 
-    if (normalized.startsWith("+")) {
-      int i = 1;
-      while (i < normalized.length() && Character.isDigit(normalized.charAt(i)))
-        i++;
-
-      countryCode = normalized.substring(0, i);
-      localNumber = normalized.substring(i);
-    }
-
+    // if (normalized.startsWith("+")) {
+    // int i = 1;
+    // while (i < normalized.length() && Character.isDigit(normalized.charAt(i)))
+    // i++;
+    //
+    // countryCode = normalized.substring(0, i);
+    // localNumber = normalized.substring(i);
+    // }
+    countryCode = normalized.substring(0, 3);
+    localNumber = normalized.substring(3);
     if (countryCode == null || countryCode.isBlank())
       throw PhoneNumberException.invalidCountryCode();
 

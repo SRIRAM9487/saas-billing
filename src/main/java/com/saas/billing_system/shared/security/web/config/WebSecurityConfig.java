@@ -40,9 +40,11 @@ public class WebSecurityConfig {
         .authenticationEntryPoint(authenticationEntryPoint));
 
     httpSecurity.authorizeHttpRequests(http -> http
-        .requestMatchers(HttpMethod.GET, RequestConstant.allowedGetPath)
+        .requestMatchers(HttpMethod.GET, RequestConstant.getPaths)
         .permitAll()
-        .requestMatchers(HttpMethod.POST, RequestConstant.loginPath)
+        .requestMatchers(HttpMethod.POST, RequestConstant.postPaths)
+        .permitAll()
+        .requestMatchers(HttpMethod.PATCH, RequestConstant.patchPaths)
         .permitAll()
         .anyRequest()
         .authenticated());
