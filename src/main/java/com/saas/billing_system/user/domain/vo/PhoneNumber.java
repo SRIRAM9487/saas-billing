@@ -1,6 +1,6 @@
 package com.saas.billing_system.user.domain.vo;
 
-import com.saas.billing_system.user.domain.exception.PhoneException;
+import com.saas.billing_system.user.domain.exception.PhoneNumberException;
 
 import jakarta.persistence.Column;
 
@@ -17,27 +17,36 @@ public record PhoneNumber(@Column(name = "phone", nullable = false) String value
   public void validate(String number) {
 
     if (number == null || number.isBlank())
-      throw PhoneException.empty();
+      throw PhoneNumberException.empty();
 
     String normalized = number.replaceAll("[\\s\\-]", "");
 
-    if (normalized.matches("\\+?\\d+"))
-      throw PhoneException.invalidCharacters();
+    if (!normalized.matches("\\+?\\d+"))
+      throw PhoneNumberException.invalidCharacters();
 
     String countryCode = "";
     String localNumber = "";
 
+    if (normalized.startsWith("+")) {
+      int i = 1;
+      while (i < normalized.length() && Character.isDigit(normalized.charAt(i)))
+        i++;
+
+      countryCode = normalized.substring(0, i);
+      localNumber = normalized.substring(i);
+    }
+
     if (countryCode == null || countryCode.isBlank())
-      throw PhoneException.invalidCountryCode();
+      throw PhoneNumberException.invalidCountryCode();
 
     if (localNumber == null || localNumber.isBlank())
-      throw PhoneException.invalidPhoneNumber();
+      throw PhoneNumberException.invalidPhoneNumber();
 
     if (localNumber.length() < 8)
-      throw PhoneException.tooShort();
+      throw PhoneNumberException.tooShort();
 
     if (localNumber.length() > 15)
-      throw PhoneException.tooLong();
+      throw PhoneNumberException.tooLong();
 
   }
 

@@ -37,6 +37,9 @@ public class User {
   @Embedded
   private Email email;
 
+  @Column(name = "verfied", nullable = false)
+  private VerifiedType verfied;
+
   @Embedded
   private PhoneNumber phone;
 
@@ -55,7 +58,7 @@ public class User {
   @Column(name = "account_non_expired")
   private boolean accountNonExpired;
 
-  public static User createTenant(String userName, String password, String email, double number) {
+  public static User create(String userName, String password, String email, String number, String role) {
     return User
         .builder()
         .id(UserId.create())
@@ -63,7 +66,8 @@ public class User {
         .password(Password.create(password))
         .email(Email.create(email))
         .phone(PhoneNumber.create(number))
-        .role(UserRole.TENANT)
+        .role(UserRole.valueOf(role))
+        .verfied(VerifiedType.PENDING)
         .enabled(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
@@ -71,13 +75,16 @@ public class User {
         .build();
   }
 
-  public static User createSudo(String userName, String password) {
+  public static User create(String userName, String password, String email, String number, UserRole role) {
     return User
         .builder()
         .id(UserId.create())
         .userName(userName)
         .password(Password.create(password))
-        .role(UserRole.SUDO)
+        .email(Email.create(email))
+        .phone(PhoneNumber.create(number))
+        .role(role)
+        .verfied(VerifiedType.PENDING)
         .enabled(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
@@ -85,25 +92,27 @@ public class User {
         .build();
   }
 
-  public static User createSystem(String userName, String password) {
-    return User
-        .builder()
-        .id(UserId.create())
-        .userName(userName)
-        .password(Password.create(password))
-        .role(UserRole.SYSTEM)
-        .enabled(true)
-        .accountNonLocked(true)
-        .credentialsNonExpired(true)
-        .accountNonExpired(true)
-        .build();
+  public static User createTenant(String userName, String password, String email, String number) {
+    return create(userName, password, email, number, UserRole.TENANT);
   }
 
-  public void changePassword(String password) {
-    this.createPassword(password);
+  public static User createSudo(String userName, String password, String email, String number) {
+    return create(userName, password, email, number, UserRole.SUDO);
   }
 
-  public void createPassword(String password) {
+  public static User createSystem(String userName, String password, String email, String number) {
+    return create(userName, password, email, number, UserRole.SYSTEM);
+  }
+
+  public void updatePassword(String password) {
     this.password = Password.create(password);
+  }
+
+  public void updateEmail(String email) {
+    this.email = Email.create(email);
+  }
+
+  public void updatePhone(String number) {
+    this.phone = PhoneNumber.create(number);
   }
 }
