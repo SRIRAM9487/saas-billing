@@ -1,0 +1,23 @@
+package com.saas.billing_system.user.domain.vo;
+
+import com.saas.billing_system.user.domain.exception.InvalidEmailException;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public record Email(@Column(name = "email", nullable = false) String value) {
+
+  public Email {
+    if (value == null || value.isBlank()) {
+      throw InvalidEmailException.empty();
+    }
+  }
+
+  public static boolean isEmail(String email) {
+    if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"))
+      return false;
+    return true;
+  }
+
+}
