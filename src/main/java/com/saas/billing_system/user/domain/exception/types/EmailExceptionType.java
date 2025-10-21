@@ -6,19 +6,12 @@ public enum EmailExceptionType {
   MULTIPLE_AT_SYMBOLS("Email must contain only one '@' symbol."),
   EMPTY_LOCAL_PART("Email local part (before '@') cannot be empty."),
   EMPTY_DOMAIN_PART("Email domain part (after '@') cannot be empty."),
-
   INVALID_LOCAL_CHARS("Local part contains invalid characters."),
   LEADING_OR_TRAILING_DOT("Local part cannot start or end with a dot."),
   CONSECUTIVE_DOTS("Local part cannot contain consecutive dots."),
-  LOCAL_PART_TOO_LONG("Local part exceeds 64 characters (RFC 5321 limit)."),
-
   INVALID_DOMAIN_CHARS("Domain part contains invalid characters."),
-  DOMAIN_LABEL_TOO_LONG("One of the domain labels exceeds 63 characters."),
-  LEADING_OR_TRAILING_HYPHEN("Domain labels cannot start or end with hyphens."),
   INVALID_DOMAIN_FORMAT("Domain format is invalid or incomplete (e.g., missing TLD)."),
-
   MISSING_TLD("Email domain is missing a top-level domain (e.g., '.com')."),
-
   EMPTY_EMAIL("Email cannot be null or empty.");
 
   private final String message;
