@@ -24,9 +24,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-public class UserController {
+public class UserRestController {
 
-  private final Logger log = LoggerFactory.getLogger(UserController.class);
+  private final Logger log = LoggerFactory.getLogger(UserRestController.class);
   private final UserRegistrationUseCase registrationUseCase;
   private final UserEmailVerificationUseCase emailVerificationUseCase;
 
@@ -61,4 +61,5 @@ public class UserController {
     log.trace("Verification token generated");
     return ResponseEntity.ok(UserEmailVerificationResponseDto.generate(email));
   }
+
 }
