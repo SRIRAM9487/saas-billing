@@ -13,4 +13,15 @@ public class UserException extends BaseException {
     return new UserException("User with id " + id+" not found", "User with the id "+id+" not found", UserExceptionType.USER_NOT_FOUND.name());
   }
 
+  public static UserException authenticationFailed(String id){
+    return new UserException("User with id " + id+" not found", "User with the id "+id+" not found", UserExceptionType.USER_NOT_FOUND.name());
+  }
+
+  public static UserException emailNotVerified(String id){
+    return new UserException("User with id " + id+" not found", "User with the id "+id+" not found", UserExceptionType.USER_NOT_FOUND.name());
+  }
+
+  public static UserException invalidOtp(String id){
+    return new UserException("User with id " + id+" not found", "User with the id "+id+" not found", UserExceptionType.USER_NOT_FOUND.name());
+  }
 }

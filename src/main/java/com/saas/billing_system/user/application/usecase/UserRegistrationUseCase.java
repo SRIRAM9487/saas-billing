@@ -27,7 +27,8 @@ public class UserRegistrationUseCase {
     log.trace("User Registration successfull {}", savedUser);
 
     // Email Verification event
-    userEmailVerificationUseCase.generateVerificationToken(savedUser.getEmail().value());
+    userEmailVerificationUseCase.generateEmailVerification(savedUser.getEmail().value());
+    log.trace("Email verification has send to the user mail {}", savedUser.getEmail().value());
 
     return savedUser;
   }

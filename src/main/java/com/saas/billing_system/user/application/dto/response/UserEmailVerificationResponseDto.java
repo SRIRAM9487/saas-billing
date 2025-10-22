@@ -9,6 +9,7 @@ public record UserEmailVerificationResponseDto(String message, String email) {
   public static UserEmailVerificationResponseDto success(String email) {
     return new UserEmailVerificationResponseDto("Email Verified Successfully", email);
   }
+
   public static UserEmailVerificationResponseDto generate(String email) {
     return new UserEmailVerificationResponseDto("Verification sent to your email", email);
   }

@@ -1,9 +1,13 @@
 package com.saas.billing_system.user.infrastructure.controller;
 
+import com.saas.billing_system.shared.dto.response.ApiResponseDto;
+import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
+import com.saas.billing_system.user.application.dto.response.UserLoginResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserRegistrationResponseDto;
 import com.saas.billing_system.user.application.usecase.UserEmailVerificationUseCase;
+import com.saas.billing_system.user.application.usecase.UserLoginUseCase;
 import com.saas.billing_system.user.application.usecase.UserRegistrationUseCase;
 import com.saas.billing_system.user.domain.entity.User;
 
@@ -29,6 +33,7 @@ public class UserRestController {
   private final Logger log = LoggerFactory.getLogger(UserRestController.class);
   private final UserRegistrationUseCase registrationUseCase;
   private final UserEmailVerificationUseCase emailVerificationUseCase;
+  private final UserLoginUseCase userLoginUseCase;
 
   @GetMapping("/server")
   public String server() {
@@ -36,30 +41,60 @@ public class UserRestController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<?> register(@RequestBody UserRegisterRequestDto registerRequestDto) {
+  public ResponseEntity<ApiResponseDto<UserRegistrationResponseDto>> register(
+      @RequestBody UserRegisterRequestDto registerRequestDto) {
     log.debug("register Api called");
     log.trace("Request payload : {}", registerRequestDto.toString());
     User user = registrationUseCase.register(registerRequestDto);
     log.trace("User registration successfull");
-    return ResponseEntity.status(HttpStatus.CREATED).body(UserRegistrationResponseDto.fromUser(user));
-  }
+    ApiResponseDto<UserRegistrationResponseDto> response = ApiResponseDto
+        .create(UserRegistrationResponseDto.fromUser(user));
 
-  @GetMapping("/email/verify")
-  public ResponseEntity<?> verifyEmail(@RequestParam("token") String token, @RequestParam("email") String email) {
-    log.debug("Email Verify Api called");
-    log.trace("Request payload token : {} email : {}", token, email);
-    emailVerificationUseCase.verifyEmail(email, token);
-    log.trace("Verification successfull");
-    return ResponseEntity.ok(UserEmailVerificationResponseDto.success(email));
+    return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 
   @PatchMapping("/email/verify")
-  public ResponseEntity<?> generateEmailVerification(@RequestParam("email") String email) {
+  public ResponseEntity<ApiResponseDto<UserEmailVerificationResponseDto>> generateEmailVerification(
+      @RequestParam("email") String email) {
     log.debug("Email Verification Request Api called");
     log.trace("Request payload  email : {}", email);
-    emailVerificationUseCase.generateEmailVerification(email);
+    User user = emailVerificationUseCase.generateEmailVerification(email);
     log.trace("Verification token generated");
-    return ResponseEntity.ok(UserEmailVerificationResponseDto.generate(email));
+    ApiResponseDto<UserEmailVerificationResponseDto> response = ApiResponseDto
+        .create(UserEmailVerificationResponseDto.generate(user.getEmail().value()));
+    return ResponseEntity.ok(response);
   }
 
+  @GetMapping("/email/verify")
+  public ResponseEntity<ApiResponseDto<UserEmailVerificationResponseDto>> verifyEmail(
+      @RequestParam("token") String token, @RequestParam("email") String email) {
+    log.debug("Email Verify Api called");
+    log.trace("Request payload token : {} email : {}", token, email);
+    User user = emailVerificationUseCase.verifyEmail(email, token);
+    log.trace("Verification successfull");
+    ApiResponseDto<UserEmailVerificationResponseDto> response = ApiResponseDto
+        .create(UserEmailVerificationResponseDto.success(user.getEmail().value()));
+    return ResponseEntity.ok(response);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> login(UserLoginRequestDto requestDto) {
+    log.debug("login Api called");
+    log.trace("Request payload : ", requestDto.toString());
+
+    userLoginUseCase.login(requestDto);
+
+    ApiResponseDto<UserLoginResponseDto> response = ApiResponseDto.create(UserLoginResponseDto.verificationSent());
+    return ResponseEntity.ok(response);
+  }
+
+  @PostMapping("/login/verifiy")
+  public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> loginVerification(UserLoginRequestDto requestDto) {
+    log.debug("login Api called");
+    log.trace("Request payload : ", requestDto.toString());
+    String token = userLoginUseCase.login(requestDto);
+    ApiResponseDto<UserLoginResponseDto> response = ApiResponseDto
+        .create(UserLoginResponseDto.verificationSuccess(token));
+    return ResponseEntity.ok(response);
+  }
 }

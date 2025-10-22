@@ -100,6 +100,10 @@ public class User {
     return create(userName, password, email, number, UserRole.SUDO);
   }
 
+  public static User createAdmin(String userName, String password, String email, String number) {
+    return create(userName, password, email, number, UserRole.ADMIN);
+  }
+
   public static User createSystem(String userName, String password, String email, String number) {
     return create(userName, password, email, number, UserRole.SYSTEM);
   }
@@ -119,4 +123,9 @@ public class User {
   public void updatePhone(String number) {
     this.phone = PhoneNumber.create(number);
   }
+
+  public boolean isVerified() {
+    return this.verfied.isVerified();
+  }
+
 }

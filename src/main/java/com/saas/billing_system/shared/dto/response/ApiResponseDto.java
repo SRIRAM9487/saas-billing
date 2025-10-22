@@ -2,14 +2,13 @@ package com.saas.billing_system.shared.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.saas.billing_system.shared.domain.SoftDelete;
-
-public record ApiResponseDto<T extends SoftDelete>(
+public record ApiResponseDto<T>(
     boolean success,
     T data,
     LocalDateTime timeStamp) {
 
-  public static ApiResponseDto<SoftDelete> create(SoftDelete data) {
-    return new ApiResponseDto<SoftDelete>(true, data, LocalDateTime.now());
+  public static <T> ApiResponseDto<T> create(T data) {
+    return new ApiResponseDto<>(true, data, LocalDateTime.now());
   }
+
 }
