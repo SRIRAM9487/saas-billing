@@ -39,6 +39,7 @@ spring:
 
 logging:
   level: 
+    root: TRACE
     com.saas.billing_system.shared.context: TRACE
     com.saas.billing_system: TRACE
 

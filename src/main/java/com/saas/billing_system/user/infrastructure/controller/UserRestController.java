@@ -1,6 +1,7 @@
 package com.saas.billing_system.user.infrastructure.controller;
 
 import com.saas.billing_system.shared.dto.response.ApiResponseDto;
+import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirificationRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
@@ -78,21 +79,20 @@ public class UserRestController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> login(UserLoginRequestDto requestDto) {
+  public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> login(@RequestBody UserLoginRequestDto requestDto) {
     log.debug("login Api called");
     log.trace("Request payload : ", requestDto.toString());
-
     userLoginUseCase.login(requestDto);
-
     ApiResponseDto<UserLoginResponseDto> response = ApiResponseDto.create(UserLoginResponseDto.verificationSent());
     return ResponseEntity.ok(response);
   }
 
-  @PostMapping("/login/verifiy")
-  public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> loginVerification(UserLoginRequestDto requestDto) {
-    log.debug("login Api called");
+  @PostMapping("/login/verify")
+  public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> loginVerification(
+      @RequestBody UserLoginOtpVeirificationRequestDto requestDto) {
+    log.debug("login Veirification Api called");
     log.trace("Request payload : ", requestDto.toString());
-    String token = userLoginUseCase.login(requestDto);
+    String token = userLoginUseCase.verifyLoginOtp(requestDto);
     ApiResponseDto<UserLoginResponseDto> response = ApiResponseDto
         .create(UserLoginResponseDto.verificationSuccess(token));
     return ResponseEntity.ok(response);

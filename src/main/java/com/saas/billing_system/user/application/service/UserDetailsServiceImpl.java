@@ -2,6 +2,7 @@ package com.saas.billing_system.user.application.service;
 
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.entity.UserImpl;
+import com.saas.billing_system.user.domain.exception.UserException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     log.trace("Authenticating User : " + username);
-    User existingUser = userLoginService.findUserById(username).orElseThrow();
-    log.trace("User found" + username);
+    User existingUser = userLoginService.findUserById(username).orElseThrow(() -> {
+      log.trace("User not found : {}",username);
+      return UserException.notFound(username);
+    });
+    log.trace("User found : " + username);
     return new UserImpl(existingUser);
   }
 }

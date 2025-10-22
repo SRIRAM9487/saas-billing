@@ -50,8 +50,10 @@ public class UserLoginService {
   }
 
   public Optional<User> findUserById(String username) {
-    if (Email.isEmail(username))
+    log.trace("Find User By Id : {}", username);
+    if (Email.isEmail(username)) {
       return userRepo.findByEmail_Value(username);
+    }
     return userRepo.findByUserName(username);
   }
 

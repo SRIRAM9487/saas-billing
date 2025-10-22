@@ -32,7 +32,7 @@ public class UserEmailVerificationUseCase {
       return UserException.notFound(email);
     });
     String otp = redisEmailService.getOtp(email);
-    if (userLoginService.verifyOtp(email, otp))
+    if (!userLoginService.verifyOtp(email, otp))
       throw EmailException.verificationFailedInvalidOtp(email);
     user.verifyEmail();
     userRepo.save(user);

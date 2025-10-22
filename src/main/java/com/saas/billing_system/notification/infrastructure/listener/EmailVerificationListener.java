@@ -8,6 +8,7 @@ import com.saas.billing_system.user.application.event.EmailVerificationEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,7 +25,8 @@ public class EmailVerificationListener {
 
   private final Logger log = LoggerFactory.getLogger(EmailVerificationListener.class);
   private final JavaMailSender javaMailSender;
-  private final String from = "sriram9487tk@gmail.com";
+  @Value("${spring.mail.username}")
+  private  String from;
 
   @EventListener
   @Async
