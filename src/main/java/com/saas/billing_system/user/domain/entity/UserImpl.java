@@ -2,6 +2,7 @@ package com.saas.billing_system.user.domain.entity;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 import com.saas.billing_system.shared.domain.SoftDelete;
 
@@ -52,4 +53,7 @@ public class UserImpl extends SoftDelete implements UserDetails {
     return this.user.isAccountNonExpired();
   }
 
+  public UUID getId(){
+    return user.getId().id();
+  }
 }

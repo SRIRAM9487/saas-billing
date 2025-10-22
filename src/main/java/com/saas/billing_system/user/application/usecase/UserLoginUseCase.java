@@ -7,6 +7,7 @@ import com.saas.billing_system.user.application.service.JwtService;
 import com.saas.billing_system.user.application.service.UserLoginService;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.exception.UserException;
+import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,10 @@ public class UserLoginUseCase {
       log.trace("Invalid otp try again");
       throw UserException.invalidOtp(requestDto.email());
     }
-    String jwt = jwtService.generate(requestDto.email());
+    User user = userLoginService.findUserById(requestDto.email()).orElseThrow(() -> {
+      return UserException.notFound(requestDto.email());
+    });
+    String jwt = jwtService.generate(user);
     log.trace("jwt generated for user {}", requestDto.email());
     return jwt;
   }

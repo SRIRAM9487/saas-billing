@@ -41,6 +41,11 @@ public class UserRestController {
     return "User Controller";
   }
 
+  @GetMapping("/server/test")
+  public String serverTest() {
+    return "User Controller";
+  }
+
   @PostMapping("/register")
   public ResponseEntity<ApiResponseDto<UserRegistrationResponseDto>> register(
       @RequestBody UserRegisterRequestDto registerRequestDto) {
