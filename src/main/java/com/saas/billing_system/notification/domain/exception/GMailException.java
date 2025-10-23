@@ -13,8 +13,7 @@ public class GMailException extends BaseException {
   }
 
   public static GMailException failed() {
-    return new GMailException("Failed to send verification email",
-        "GMailException: Unable to send email via SMTP",
+    return new GMailException("Failed to send verification email", "GMailException: Unable to send email via SMTP",
         "EMAIL_001");
 
   }

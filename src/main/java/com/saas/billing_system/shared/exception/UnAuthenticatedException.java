@@ -9,16 +9,12 @@ public class UnAuthenticatedException extends BaseException {
   }
 
   public static UnAuthenticatedException create() {
-    return new UnAuthenticatedException(
-        "Authentication failed",
-        "Authentication failed for " + UserContextHolder.getUserId(),
-        "Invalid User Name or Password");
+    return new UnAuthenticatedException("Authentication failed",
+        "Authentication failed for " + UserContextHolder.getUserId(), "Invalid User Name or Password");
   }
 
   public static UnAuthenticatedException userIdMissing() {
-    return new UnAuthenticatedException(
-        "Authentication failed",
-        "User id missing",
+    return new UnAuthenticatedException("Authentication failed", "User id missing",
         "User id missing");
   }
 

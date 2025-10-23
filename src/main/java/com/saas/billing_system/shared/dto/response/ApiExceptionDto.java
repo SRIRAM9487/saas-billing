@@ -13,12 +13,23 @@ public record ApiExceptionDto(
     boolean success,
     String method,
     HttpStatus status,
-    String  timeStamp,
+    String timeStamp,
     String path,
     String message,
     String code) {
 
   public static ApiExceptionDto create(HttpMethod method, HttpStatus status, String message, String code) {
+    return new ApiExceptionDto(
+        false,
+        method.name(),
+        status,
+        LocalDateTime.now().toString(),
+        UserContextHolder.getPath(),
+        message,
+        code);
+  }
+
+  public static ApiExceptionDto create(HttpStatus status, String message, String code) {
     return new ApiExceptionDto(
         false,
         method.name(),
@@ -69,6 +80,26 @@ public record ApiExceptionDto(
 
   public static ApiExceptionDto conflict(BaseException exception) {
     return create(exception, HttpStatus.CONFLICT);
+  }
+
+  public static ApiExceptionDto badRequest(String message, String code) {
+    return create(HttpStatus.BAD_REQUEST, message, code);
+  }
+
+  public static ApiExceptionDto unAuthorized(String message, String code) {
+    return create(HttpStatus.UNAUTHORIZED, message, code);
+  }
+
+  public static ApiExceptionDto forbidden(String message, String code) {
+    return create(HttpStatus.FORBIDDEN, message, code);
+  }
+
+  public static ApiExceptionDto notFound(String message, String code) {
+    return create(HttpStatus.NOT_FOUND, message, code);
+  }
+
+  public static ApiExceptionDto conflict(String message, String code) {
+    return create(HttpStatus.CONFLICT, message, code);
   }
 
 }

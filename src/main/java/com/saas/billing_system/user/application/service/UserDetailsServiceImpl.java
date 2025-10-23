@@ -17,14 +17,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private final UserLoginService userLoginService;
   private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+  private final UserLoginService userLoginService;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     log.trace("Authenticating User : " + username);
     User existingUser = userLoginService.findUserById(username).orElseThrow(() -> {
-      log.trace("User not found : {}",username);
+      log.trace("User not found : {}", username);
       return UserException.notFound(username);
     });
     log.trace("User found : " + username);

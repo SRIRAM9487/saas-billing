@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saas.billing_system.shared.context.UserContextHolder;
 import com.saas.billing_system.shared.dto.response.ApiExceptionDto;
 import com.saas.billing_system.shared.exception.UnAuthenticatedException;
-import com.saas.billing_system.shared.exception.UnAuthorizedException;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

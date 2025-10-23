@@ -7,10 +7,12 @@ import com.saas.billing_system.user.application.dto.request.UserRegisterRequestD
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLoginResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserRegistrationResponseDto;
+import com.saas.billing_system.user.application.service.UserLoginService;
 import com.saas.billing_system.user.application.usecase.UserEmailVerificationUseCase;
 import com.saas.billing_system.user.application.usecase.UserLoginUseCase;
 import com.saas.billing_system.user.application.usecase.UserRegistrationUseCase;
 import com.saas.billing_system.user.domain.entity.User;
+import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +40,12 @@ public class UserRestController {
 
   @GetMapping("/server")
   public String server() {
-    return "User Controller";
+    return "Testing end point";
   }
 
   @GetMapping("/server/test")
   public String serverTest() {
-    return "User Controller";
+    return "private Testing end point";
   }
 
   @PostMapping("/register")
@@ -55,7 +57,6 @@ public class UserRestController {
     log.trace("User registration successfull");
     ApiResponseDto<UserRegistrationResponseDto> response = ApiResponseDto
         .create(UserRegistrationResponseDto.fromUser(user));
-
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
 

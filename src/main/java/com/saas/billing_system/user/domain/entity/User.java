@@ -15,14 +15,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@ToString
+@Builder
+@Getter
 @Setter
 @AllArgsConstructor
-@Builder
 @NoArgsConstructor
 @Table(name = "Users")
-@Getter
 public class User {
 
   @EmbeddedId

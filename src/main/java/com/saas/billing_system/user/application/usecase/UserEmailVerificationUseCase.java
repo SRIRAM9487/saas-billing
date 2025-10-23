@@ -45,8 +45,15 @@ public class UserEmailVerificationUseCase {
       log.trace("User not found for email : {}", email);
       return UserException.notFound(email);
     });
+
+    if (unverifiedUser.isVerified()) {
+      log.trace("Email already verified for user : {}",unverifiedUser.toString());
+      throw UserException.emailAlreadyVerified(unverifiedUser.getId().id().toString());
+
+    }
     applicationEventPublisher.publishEvent(new EmailVerificationEvent(this, email,
         unverifiedUser.getUserName(), userLoginService.generateVerificationToken(email)));
+
     return unverifiedUser;
   }
 

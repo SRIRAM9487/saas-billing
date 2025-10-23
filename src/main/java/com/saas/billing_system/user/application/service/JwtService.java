@@ -61,7 +61,10 @@ public class JwtService {
 
   public boolean validate(String token, UUID userId) {
     String tokenUserId = extractUserId(token);
-    return (tokenUserId.equals(userId.toString()) && !isTokenExpired(token));
+    LOG.trace("Validating token : {} user : {}",token,userId);
+    boolean valid =(tokenUserId.equals(userId.toString()) && !isTokenExpired(token));
+      LOG.trace("Is Token Valid : {}",valid);
+    return valid;
   }
 
   private SecretKey getKey() {
@@ -99,6 +102,5 @@ public class JwtService {
         .build()
         .parseSignedClaims(token)
         .getPayload();
-
   }
 }

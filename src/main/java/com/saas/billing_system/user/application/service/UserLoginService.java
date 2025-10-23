@@ -1,10 +1,13 @@
 package com.saas.billing_system.user.application.service;
 
+import java.text.DecimalFormat;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.vo.Email;
+import com.saas.billing_system.user.domain.vo.UserId;
 import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
@@ -32,7 +35,7 @@ public class UserLoginService {
   public String generateLoginOtp(String email) {
     log.trace("generating verification token for user");
     StringBuilder otp = new StringBuilder();
-    otp.append(UUID.randomUUID().toString().replace("-", ""));
+    otp.append(new DecimalFormat("000000").format(new Random().nextInt(999999)));
     redisEmailService.saveOtp(email, otp.toString());
     return otp.toString();
   }
@@ -53,6 +56,10 @@ public class UserLoginService {
     log.trace("Find User By Id : {}", username);
     if (Email.isEmail(username)) {
       return userRepo.findByEmail_Value(username);
+    }
+    if (username
+        .matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
+      return userRepo.findById(new UserId(UUID.fromString(username)));
     }
     return userRepo.findByUserName(username);
   }

@@ -9,7 +9,10 @@ public class RequestConstant {
       "/user/ui/login",
       "/user/ui/register" };
 
-  public static String[] postPaths = { "/user/register", "/user/login", "/user/login/verify" };
+  public static String[] postPaths = {
+      "/user/register",
+      "/user/login",
+      "/user/login/verify" };
 
   public static String[] patchPaths = { "/user/email/verify" };
 

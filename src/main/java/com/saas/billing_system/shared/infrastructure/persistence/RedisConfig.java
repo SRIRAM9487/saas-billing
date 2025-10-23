@@ -1,4 +1,4 @@
-package com.saas.billing_system.shared.persistence;
+package com.saas.billing_system.shared.infrastructure.persistence;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;

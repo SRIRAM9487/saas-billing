@@ -28,6 +28,12 @@ public class UserException extends BaseException {
         UserExceptionType.EMAIL_NOT_VERIFIED.name());
   }
 
+  public static UserException emailAlreadyVerified(String id) {
+    return new UserException(
+        "Email verified for user id " + id,
+        "User with id " + id + " attempted login but email Already verified",
+        UserExceptionType.EMAIL_NOT_VERIFIED.name());
+  }
   public static UserException invalidOtp(String id) {
     return new UserException(
         "Invalid OTP for user id " + id,

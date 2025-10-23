@@ -1,6 +1,7 @@
 package com.saas.billing_system.shared.security.web.config;
 
 import com.saas.billing_system.shared.constant.RequestConstant;
+import com.saas.billing_system.shared.security.web.filter.JwtFilter;
 import com.saas.billing_system.shared.security.web.filter.UserContextFilter;
 import com.saas.billing_system.shared.security.web.handler.AccessDeniedHandlerException;
 import com.saas.billing_system.shared.security.web.handler.AuthenticationEntryPointException;
@@ -25,6 +26,7 @@ public class WebSecurityConfig {
   private final AccessDeniedHandlerException accessDeniedHandlerException;
   private final AuthenticationEntryPointException authenticationEntryPoint;
   private final UserContextFilter userContextFilter;
+  private final JwtFilter jwtFilter;
 
   @Bean
   public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -37,7 +39,7 @@ public class WebSecurityConfig {
         .cors(cors -> cors.disable());
 
     httpSecurity.exceptionHandling(exception -> exception
-        .accessDeniedPage("/access_denied.html")
+        // .accessDeniedPage("/access_denied.html")
         .accessDeniedHandler(accessDeniedHandlerException)
         .authenticationEntryPoint(authenticationEntryPoint));
 
@@ -51,7 +53,8 @@ public class WebSecurityConfig {
         .anyRequest()
         .authenticated());
 
-    httpSecurity.addFilterBefore(userContextFilter, UsernamePasswordAuthenticationFilter.class);
+    httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+    httpSecurity.addFilterBefore(userContextFilter, JwtFilter.class);
 
     return httpSecurity.build();
   }

@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-  private final Logger LOG = LoggerFactory.getLogger(JwtFilter.class);
+  private final Logger log = LoggerFactory.getLogger(JwtFilter.class);
   private final UserDetailsServiceImpl userDetailsServiceImp;
   private final JwtService jwtService;
 
@@ -36,58 +36,60 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
 
-    LOG.debug("Invoking custom Jwt Authentication Filter");
+    log.debug("Invoking custom Jwt Authentication Filter");
 
     String path = request.getRequestURI();
-    LOG.trace("Request Path : {}", path);
+    log.trace("Request Path : {}", path);
 
     String authHeader = request.getHeader("Authorization");
     String token = null;
     String userName = null;
 
     if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      LOG.error("Authorization Header is present");
-      authHeader.substring(7);
+      log.error("Authorization Header is present");
+      token = authHeader.substring(7);
       userName = jwtService.extractUserId(token);
-
     }
 
     try {
-
       if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        log.trace("User is authenticated");
         UserImpl user = (UserImpl) userDetailsServiceImp.loadUserByUsername(userName);
         if (jwtService.validate(token, user.getId())) {
+            log.trace("User is authenticated");
           UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
               user.getAuthorities());
+          log.trace("userName Password Authentication Token is set");
           authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           SecurityContextHolder.getContext().setAuthentication(authentication);
+          log.trace("Security Context is set");
         }
       }
     } catch (ExpiredJwtException e) {
-      LOG.warn("Token is expired: {}", e.getMessage());
+      log.warn("Token is expired: {}", e.getMessage());
     } catch (MalformedJwtException e) {
-      LOG.warn("Malformed JWT token: {}", e.getMessage());
+      log.warn("Malformed JWT token: {}", e.getMessage());
 
     } catch (SecurityException e) {
-      LOG.warn("Signature validation failed: {}", e.getMessage());
+      log.warn("Signature validation failed: {}", e.getMessage());
 
     } catch (UnsupportedJwtException e) {
-      LOG.warn("Unsupported JWT token: {}", e.getMessage());
+      log.warn("Unsupported JWT token: {}", e.getMessage());
 
     } catch (IllegalArgumentException e) {
-      LOG.warn("Empty or null JWT token: {}", e.getMessage());
+      log.warn("Empty or null JWT token: {}", e.getMessage());
 
     } catch (JwtException e) {
-      LOG.warn("General JWT error: {}", e.getMessage());
+      log.warn("General JWT error: {}", e.getMessage());
 
     } catch (NullPointerException e) {
-      LOG.error("Missing required claim: {}", e.getMessage());
+      log.error("Missing required claim: {}", e.getMessage());
 
     } catch (Exception e) {
-      LOG.error("Unexpected Error: {}", e.getMessage(), e);
+      log.error("Unexpected Error: {}", e.getMessage(), e);
     }
 
-    LOG.trace(" Requested User id : {}", userName);
+    log.trace(" Requested User id : {}", userName);
 
     filterChain.doFilter(request, response);
   }
