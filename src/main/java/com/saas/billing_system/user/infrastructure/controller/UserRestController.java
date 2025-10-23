@@ -4,15 +4,16 @@ import com.saas.billing_system.shared.dto.response.ApiResponseDto;
 import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirificationRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
+import com.saas.billing_system.user.application.dto.request.UserUpdateRequestDto;
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLoginResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserRegistrationResponseDto;
-import com.saas.billing_system.user.application.service.UserLoginService;
+import com.saas.billing_system.user.application.dto.response.UserUpdateResponseDto;
 import com.saas.billing_system.user.application.usecase.UserEmailVerificationUseCase;
 import com.saas.billing_system.user.application.usecase.UserLoginUseCase;
 import com.saas.billing_system.user.application.usecase.UserRegistrationUseCase;
+import com.saas.billing_system.user.application.usecase.UserUpdateUseCase;
 import com.saas.billing_system.user.domain.entity.User;
-import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +38,8 @@ public class UserRestController {
   private final Logger log = LoggerFactory.getLogger(UserRestController.class);
   private final UserRegistrationUseCase registrationUseCase;
   private final UserEmailVerificationUseCase emailVerificationUseCase;
-  private final UserLoginUseCase userLoginUseCase;
+  private final UserLoginUseCase loginUseCase;
+  private final UserUpdateUseCase updateUseCase;
 
   @GetMapping("/server")
   public String server() {
@@ -88,7 +91,7 @@ public class UserRestController {
   public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> login(@RequestBody UserLoginRequestDto requestDto) {
     log.debug("login Api called");
     log.trace("Request payload : ", requestDto.toString());
-    userLoginUseCase.login(requestDto);
+    loginUseCase.login(requestDto);
     ApiResponseDto<UserLoginResponseDto> response = ApiResponseDto.create(UserLoginResponseDto.verificationSent());
     return ResponseEntity.ok(response);
   }
@@ -97,10 +100,21 @@ public class UserRestController {
   public ResponseEntity<ApiResponseDto<UserLoginResponseDto>> loginVerification(
       @RequestBody UserLoginOtpVeirificationRequestDto requestDto) {
     log.debug("login Veirification Api called");
-    log.trace("Request payload : ", requestDto.toString());
-    String token = userLoginUseCase.verifyLoginOtp(requestDto);
+    log.trace("Request payload : {}", requestDto.toString());
+    String token = loginUseCase.verifyLoginOtp(requestDto);
     ApiResponseDto<UserLoginResponseDto> response = ApiResponseDto
         .create(UserLoginResponseDto.verificationSuccess(token));
+    return ResponseEntity.ok(response);
+  }
+
+  @PostMapping("/update/{userId}")
+  public ResponseEntity<ApiResponseDto<UserUpdateResponseDto>> updateUser(@PathVariable("userId") String userId,
+      @RequestBody(required = true) UserUpdateRequestDto requestDto) {
+    log.debug("user update requested");
+    log.trace("Requested payload userId : {} dto : {}", userId, requestDto.toString());
+    User user = updateUseCase.updateUser(userId, requestDto);
+    log.trace("Updated user : ", user.toString());
+    ApiResponseDto<UserUpdateResponseDto> response = ApiResponseDto.create(UserUpdateResponseDto.fromUser(user));
     return ResponseEntity.ok(response);
   }
 }

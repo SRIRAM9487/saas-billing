@@ -32,7 +32,7 @@ public record ApiExceptionDto(
   public static ApiExceptionDto create(HttpStatus status, String message, String code) {
     return new ApiExceptionDto(
         false,
-        method.name(),
+        UserContextHolder.getMethod().name(),
         status,
         LocalDateTime.now().toString(),
         UserContextHolder.getPath(),

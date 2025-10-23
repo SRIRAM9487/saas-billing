@@ -7,7 +7,11 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public record UserId(UUID id) {
 
-  public static UserId create(){
+  public static UserId create() {
     return new UserId(UUID.randomUUID());
+  }
+
+  public static UserId fromString(String id) {
+    return new UserId(UUID.fromString(id));
   }
 }

@@ -120,6 +120,7 @@ public class User {
 
   public void updateEmail(String email) {
     this.email = Email.create(email);
+    this.verfied = VerifiedType.PENDING;
   }
 
   public void updatePhone(String number) {
