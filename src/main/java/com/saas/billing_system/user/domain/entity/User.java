@@ -125,7 +125,8 @@ public class User extends SoftDelete {
   public void toggleLock() {
     this.accountNonLocked = !this.accountNonLocked;
   }
-  public boolean isLocked(){
+
+  public boolean isLocked() {
     return !this.accountNonLocked;
   }
 
