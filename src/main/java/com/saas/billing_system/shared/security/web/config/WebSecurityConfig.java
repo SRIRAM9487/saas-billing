@@ -9,6 +9,8 @@ import com.saas.billing_system.shared.security.web.handler.AuthenticationEntryPo
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -45,6 +47,7 @@ public class WebSecurityConfig {
         .accessDeniedHandler(accessDeniedHandlerException)
         .authenticationEntryPoint(authenticationEntryPoint));
 
+    /*
     httpSecurity.authorizeHttpRequests(http -> http
         .requestMatchers(HttpMethod.GET, RequestConstant.getPaths)
         .permitAll()
@@ -54,7 +57,11 @@ public class WebSecurityConfig {
         .permitAll()
         .anyRequest()
         .authenticated());
+    */
 
+    httpSecurity.authorizeHttpRequests(http -> http
+        .anyRequest()
+        .permitAll());
     httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     httpSecurity.addFilterBefore(userContextFilter, JwtFilter.class);
     httpSecurity.addFilterBefore(exceptionalHandlerFilter, UserContextFilter.class);

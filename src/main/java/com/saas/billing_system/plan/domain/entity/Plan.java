@@ -1,6 +1,7 @@
 package com.saas.billing_system.plan.domain.entity;
 
 import com.saas.billing_system.plan.domain.vo.PlanId;
+import com.saas.billing_system.plan.domain.vo.PlanQuality;
 import com.saas.billing_system.shared.domain.SoftDelete;
 import com.saas.billing_system.tenant.domain.vo.DefaultCurrency;
 
@@ -56,6 +57,9 @@ public class Plan extends SoftDelete {
 
   @Column(name = "remaider", nullable = false)
   private double remainderDate;
+
+  @Column(name = "plan_quality", nullable = false)
+  private PlanQuality quality;
 
 
 }

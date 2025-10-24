@@ -1,4 +1,4 @@
-package com.saas.billing_system.user.application.dto.request;
+package com.saas.billing_system.user.infrastructure.dto.request;
 
 import com.saas.billing_system.user.domain.entity.User;
 

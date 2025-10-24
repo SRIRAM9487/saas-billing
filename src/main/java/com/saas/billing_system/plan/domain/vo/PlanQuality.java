@@ -1,7 +1,8 @@
 package com.saas.billing_system.plan.domain.vo;
 
-public enum BillingInterval {
+public enum PlanQuality {
 
+  BEST,
+  RECOMMENDED
 
-  
 }

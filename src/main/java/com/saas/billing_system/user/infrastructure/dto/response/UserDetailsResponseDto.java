@@ -1,4 +1,4 @@
-package com.saas.billing_system.user.application.dto.response;
+package com.saas.billing_system.user.infrastructure.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;

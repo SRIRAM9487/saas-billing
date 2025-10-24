@@ -1,14 +1,13 @@
 package com.saas.billing_system.user.application.usecase;
 
-import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirificationRequestDto;
-import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.event.LoginVerificationEvent;
 import com.saas.billing_system.user.application.service.JwtService;
 import com.saas.billing_system.user.application.service.UserFactory;
 import com.saas.billing_system.user.application.service.UserLoginService;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.exception.UserException;
-import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
+import com.saas.billing_system.user.infrastructure.dto.request.UserLoginOtpVeirificationRequestDto;
+import com.saas.billing_system.user.infrastructure.dto.request.UserLoginRequestDto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

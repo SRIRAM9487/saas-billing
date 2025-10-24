@@ -27,8 +27,8 @@ public class Feature extends SoftDelete {
   @Column(name = "remainder", nullable = false)
   private double remainder;
 
-  @Column(name = "limit", nullable = false)
-  private double limit;
+  @Column(name = "rate_limit", nullable = false)
+  private double rateLimit;
 
   @Column(name = "current", nullable = false)
   private double current;
