@@ -1,7 +1,6 @@
 package com.saas.billing_system.user.infrastructure.persistence;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.vo.UserId;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, UserId> {
 
-  //Optional<User> findByUserId_Id(UUID id);
 
   Optional<User> findByUserName(String name);
 

@@ -1,5 +1,6 @@
 package com.saas.billing_system.user.domain.entity;
 
+import com.saas.billing_system.shared.domain.SoftDelete;
 import com.saas.billing_system.user.domain.vo.Email;
 import com.saas.billing_system.user.domain.vo.Password;
 import com.saas.billing_system.user.domain.vo.PhoneNumber;
@@ -25,7 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Users")
-public class User {
+public class User extends SoftDelete {
 
   @EmbeddedId
   private UserId id;
@@ -39,8 +40,8 @@ public class User {
   @Embedded
   private Email email;
 
-  @Column(name = "verfied", nullable = false)
-  private VerifiedType verfied;
+  @Column(name = "verified", nullable = false)
+  private VerifiedType verified;
 
   @Embedded
   private PhoneNumber phone;
@@ -69,7 +70,7 @@ public class User {
         .email(Email.create(email))
         .phone(PhoneNumber.create(number))
         .role(UserRole.valueOf(role))
-        .verfied(VerifiedType.PENDING)
+        .verified(VerifiedType.PENDING)
         .enabled(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
@@ -86,7 +87,7 @@ public class User {
         .email(Email.create(email))
         .phone(PhoneNumber.create(number))
         .role(role)
-        .verfied(VerifiedType.PENDING)
+        .verified(VerifiedType.PENDING)
         .enabled(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)
@@ -115,12 +116,12 @@ public class User {
   }
 
   public void verifyEmail() {
-    this.verfied = VerifiedType.VERIFIED;
+    this.verified = VerifiedType.VERIFIED;
   }
 
   public void updateEmail(String email) {
     this.email = Email.create(email);
-    this.verfied = VerifiedType.PENDING;
+    this.verified = VerifiedType.PENDING;
   }
 
   public void updatePhone(String number) {
@@ -128,7 +129,7 @@ public class User {
   }
 
   public boolean isVerified() {
-    return this.verfied.isVerified();
+    return this.verified.isVerified();
   }
 
 }

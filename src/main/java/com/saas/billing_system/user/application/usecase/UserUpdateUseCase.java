@@ -1,9 +1,9 @@
 package com.saas.billing_system.user.application.usecase;
 
 import com.saas.billing_system.user.application.dto.request.UserUpdateRequestDto;
+import com.saas.billing_system.user.application.service.UserLoginService;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.exception.UserException;
-import com.saas.billing_system.user.domain.vo.UserId;
 import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
@@ -20,12 +20,13 @@ public class UserUpdateUseCase {
   private final Logger log = LoggerFactory.getLogger(UserUpdateUseCase.class);
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder encoder;
+  private final UserLoginService userLoginService;
 
   public User updateUser(String userId, UserUpdateRequestDto requestDto) {
 
     log.trace("updating user : ", userId);
 
-    User user = userRepository.findById(UserId.fromString(userId)).orElseThrow(() -> {
+    User user = userLoginService.findUserById(userId).orElseThrow(() -> {
       log.trace("user not found : {}", userId);
       return UserException.notFound(userId);
     });

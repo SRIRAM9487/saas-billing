@@ -1,4 +1,4 @@
-package com.saas.billing_system.user.infrastructure.controller;
+package com.saas.billing_system.user.infrastructure.controller.rest;
 
 import com.saas.billing_system.shared.dto.response.ApiResponseDto;
 import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirificationRequestDto;
@@ -117,4 +117,6 @@ public class UserRestController {
     ApiResponseDto<UserUpdateResponseDto> response = ApiResponseDto.create(UserUpdateResponseDto.fromUser(user));
     return ResponseEntity.ok(response);
   }
+
+
 }

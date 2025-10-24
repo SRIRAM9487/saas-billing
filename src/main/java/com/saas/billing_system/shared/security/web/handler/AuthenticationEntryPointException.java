@@ -10,6 +10,7 @@ import com.saas.billing_system.shared.exception.UnAuthenticatedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,5 +36,6 @@ public class AuthenticationEntryPointException implements AuthenticationEntryPoi
           ApiExceptionDto.unAuthorized(UnAuthenticatedException.userIdMissing()));
     }
   }
+
 
 }

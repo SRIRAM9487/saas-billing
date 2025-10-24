@@ -70,6 +70,10 @@ public record ApiExceptionDto(
     return create(exception, HttpStatus.UNAUTHORIZED);
   }
 
+  public static ApiExceptionDto unAuthenticated(BaseException exception) {
+    return create(exception, HttpStatus.BAD_REQUEST);
+  }
+
   public static ApiExceptionDto forbidden(BaseException exception) {
     return create(exception, HttpStatus.FORBIDDEN);
   }
@@ -90,6 +94,10 @@ public record ApiExceptionDto(
     return create(HttpStatus.UNAUTHORIZED, message, code);
   }
 
+  public static ApiExceptionDto unAuthenticated(String message, String code) {
+    return create(HttpStatus.BAD_REQUEST, message, code);
+  }
+
   public static ApiExceptionDto forbidden(String message, String code) {
     return create(HttpStatus.FORBIDDEN, message, code);
   }
@@ -100,6 +108,10 @@ public record ApiExceptionDto(
 
   public static ApiExceptionDto conflict(String message, String code) {
     return create(HttpStatus.CONFLICT, message, code);
+  }
+
+  public static ApiExceptionDto jwt(String message) {
+    return create(HttpStatus.UNAUTHORIZED, message, "Invalid jwt");
   }
 
 }

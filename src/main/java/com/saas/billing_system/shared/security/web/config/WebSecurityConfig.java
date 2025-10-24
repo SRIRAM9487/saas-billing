@@ -1,6 +1,7 @@
 package com.saas.billing_system.shared.security.web.config;
 
 import com.saas.billing_system.shared.constant.RequestConstant;
+import com.saas.billing_system.shared.security.web.filter.ExceptionalHandlerFilter;
 import com.saas.billing_system.shared.security.web.filter.JwtFilter;
 import com.saas.billing_system.shared.security.web.filter.UserContextFilter;
 import com.saas.billing_system.shared.security.web.handler.AccessDeniedHandlerException;
@@ -27,6 +28,7 @@ public class WebSecurityConfig {
   private final AuthenticationEntryPointException authenticationEntryPoint;
   private final UserContextFilter userContextFilter;
   private final JwtFilter jwtFilter;
+  private final ExceptionalHandlerFilter exceptionalHandlerFilter;
 
   @Bean
   public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -55,6 +57,7 @@ public class WebSecurityConfig {
 
     httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     httpSecurity.addFilterBefore(userContextFilter, JwtFilter.class);
+    httpSecurity.addFilterBefore(exceptionalHandlerFilter, UserContextFilter.class);
 
     return httpSecurity.build();
   }

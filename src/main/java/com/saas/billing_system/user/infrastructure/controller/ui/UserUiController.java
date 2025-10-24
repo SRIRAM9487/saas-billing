@@ -1,4 +1,4 @@
-package com.saas.billing_system.user.infrastructure.controller;
+package com.saas.billing_system.user.infrastructure.controller.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
