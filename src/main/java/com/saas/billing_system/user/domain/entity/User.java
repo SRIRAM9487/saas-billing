@@ -55,12 +55,6 @@ public class User extends SoftDelete {
   @Column(name = "account_non_locked")
   private boolean accountNonLocked;
 
-  @Column(name = "credentials_non_expired")
-  private boolean credentialsNonExpired;
-
-  @Column(name = "account_non_expired")
-  private boolean accountNonExpired;
-
   public static User create(String userName, String password, String email, String number, String role) {
     return User
         .builder()
@@ -73,8 +67,6 @@ public class User extends SoftDelete {
         .verified(VerifiedType.PENDING)
         .enabled(true)
         .accountNonLocked(true)
-        .credentialsNonExpired(true)
-        .accountNonExpired(true)
         .build();
   }
 
@@ -90,8 +82,6 @@ public class User extends SoftDelete {
         .verified(VerifiedType.PENDING)
         .enabled(true)
         .accountNonLocked(true)
-        .credentialsNonExpired(true)
-        .accountNonExpired(true)
         .build();
   }
 
@@ -134,6 +124,9 @@ public class User extends SoftDelete {
 
   public void toggleLock() {
     this.accountNonLocked = !this.accountNonLocked;
+  }
+  public boolean isLocked(){
+    return !this.accountNonLocked;
   }
 
 }

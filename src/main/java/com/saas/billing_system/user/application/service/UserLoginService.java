@@ -1,14 +1,8 @@
 package com.saas.billing_system.user.application.service;
 
 import java.text.DecimalFormat;
-import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
-
-import com.saas.billing_system.user.domain.entity.User;
-import com.saas.billing_system.user.domain.vo.Email;
-import com.saas.billing_system.user.domain.vo.UserId;
-import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +36,7 @@ public class UserLoginService {
   public boolean verifyOtp(String userId, String otp) {
     log.debug("verifing otp for user {}", userId);
     String cache = redisEmailService.getOtp(userId);
-    if (cache.equals(otp)) {
+    if (cache != null && cache.equals(otp)) {
       log.trace("Otp verification successfull");
       redisEmailService.remove(userId);
       return true;

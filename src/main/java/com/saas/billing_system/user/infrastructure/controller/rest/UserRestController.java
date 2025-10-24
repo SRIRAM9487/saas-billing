@@ -1,16 +1,20 @@
 package com.saas.billing_system.user.infrastructure.controller.rest;
 
+import java.util.List;
+
 import com.saas.billing_system.shared.dto.response.ApiResponseDto;
 import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirificationRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserUpdateRequestDto;
 import com.saas.billing_system.user.application.dto.response.UserDeleteResponseDto;
+import com.saas.billing_system.user.application.dto.response.UserDetailsResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLockResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLoginResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserRegistrationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserUpdateResponseDto;
+import com.saas.billing_system.user.application.service.UserDetailsUseCase;
 import com.saas.billing_system.user.application.usecase.UserDeleteUseCase;
 import com.saas.billing_system.user.application.usecase.UserEmailVerificationUseCase;
 import com.saas.billing_system.user.application.usecase.UserLockUseCase;
@@ -47,6 +51,7 @@ public class UserRestController {
   private final UserUpdateUseCase updateUseCase;
   private final UserLockUseCase lockUseCase;
   private final UserDeleteUseCase deleteUseCase;
+  private final UserDetailsUseCase detailsUseCase;
 
   @GetMapping("/server")
   public String server() {
@@ -143,4 +148,20 @@ public class UserRestController {
     return ResponseEntity.ok(response);
   }
 
+  @GetMapping("/all")
+  public ResponseEntity<ApiResponseDto<List<UserDetailsResponseDto>>> getAllUser() {
+    log.debug("all user api requested");
+    List<User> users = detailsUseCase.getAll();
+    ApiResponseDto<List<UserDetailsResponseDto>> response = ApiResponseDto
+        .create(UserDetailsResponseDto.fromUser(users));
+    return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/{userId}")
+  public ResponseEntity<ApiResponseDto<UserDetailsResponseDto>> getUserById(@PathVariable("userId") String userId) {
+    log.debug("all user api requested");
+    User user = detailsUseCase.getUserById(userId);
+    ApiResponseDto<UserDetailsResponseDto> response = ApiResponseDto.create(UserDetailsResponseDto.fromUser(user));
+    return ResponseEntity.ok(response);
+  }
 }

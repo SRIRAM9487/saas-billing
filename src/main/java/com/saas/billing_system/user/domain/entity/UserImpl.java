@@ -43,17 +43,7 @@ public class UserImpl extends SoftDelete implements UserDetails {
     return this.user.isAccountNonLocked();
   }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return this.user.isCredentialsNonExpired();
-  }
-
-  @Override
-  public boolean isAccountNonExpired() {
-    return this.user.isAccountNonExpired();
-  }
-
-  public UUID getId(){
+  public UUID getId() {
     return user.getId().id();
   }
 }

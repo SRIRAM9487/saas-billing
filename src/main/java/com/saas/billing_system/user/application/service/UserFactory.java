@@ -1,5 +1,6 @@
 package com.saas.billing_system.user.application.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.saas.billing_system.user.domain.entity.User;
@@ -30,5 +31,10 @@ public class UserFactory {
       return userRepo.findById(UserId.fromString(username));
     }
     return userRepo.findByUserName(username);
+  }
+
+  public List<User> findAll() {
+    log.trace("Find all users.");
+    return userRepo.findAll();
   }
 }

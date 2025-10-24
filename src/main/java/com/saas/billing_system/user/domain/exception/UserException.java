@@ -14,6 +14,11 @@ public class UserException extends BaseException {
         UserExceptionType.USER_NOT_FOUND.name());
   }
 
+  public static UserException notFound() {
+    return new UserException("User not found", "No user found in the Db",
+        UserExceptionType.USER_NOT_FOUND.name());
+  }
+
   public static UserException authenticationFailed(String id) {
     return new UserException(
         "Authentication failed for user id " + id,
@@ -34,6 +39,7 @@ public class UserException extends BaseException {
         "User with id " + id + " attempted login but email Already verified",
         UserExceptionType.EMAIL_NOT_VERIFIED.name());
   }
+
   public static UserException invalidOtp(String id) {
     return new UserException(
         "Invalid OTP for user id " + id,

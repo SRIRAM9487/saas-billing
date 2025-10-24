@@ -14,4 +14,5 @@ public record UserId(UUID id) {
   public static UserId fromString(String id) {
     return new UserId(UUID.fromString(id));
   }
+
 }
