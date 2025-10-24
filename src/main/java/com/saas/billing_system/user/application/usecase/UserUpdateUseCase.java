@@ -1,7 +1,7 @@
 package com.saas.billing_system.user.application.usecase;
 
 import com.saas.billing_system.user.application.dto.request.UserUpdateRequestDto;
-import com.saas.billing_system.user.application.service.UserLoginService;
+import com.saas.billing_system.user.application.service.UserFactory;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.exception.UserException;
 import com.saas.billing_system.user.infrastructure.persistence.UserRepository;
@@ -20,13 +20,13 @@ public class UserUpdateUseCase {
   private final Logger log = LoggerFactory.getLogger(UserUpdateUseCase.class);
   private final UserRepository userRepository;
   private final BCryptPasswordEncoder encoder;
-  private final UserLoginService userLoginService;
+  private final UserFactory userFactory;
 
   public User updateUser(String userId, UserUpdateRequestDto requestDto) {
 
     log.trace("updating user : ", userId);
 
-    User user = userLoginService.findUserById(userId).orElseThrow(() -> {
+    User user = userFactory.findUserById(userId).orElseThrow(() -> {
       log.trace("user not found : {}", userId);
       return UserException.notFound(userId);
     });

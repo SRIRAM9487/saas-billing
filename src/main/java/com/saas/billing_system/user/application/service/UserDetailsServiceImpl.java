@@ -18,12 +18,12 @@ import lombok.RequiredArgsConstructor;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
-  private final UserLoginService userLoginService;
+  private final UserFactory userFactory;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     log.trace("Authenticating User : " + username);
-    User existingUser = userLoginService.findUserById(username).orElseThrow(() -> {
+    User existingUser = userFactory.findUserById(username).orElseThrow(() -> {
       log.trace("User not found : {}", username);
       return UserException.notFound(username);
     });

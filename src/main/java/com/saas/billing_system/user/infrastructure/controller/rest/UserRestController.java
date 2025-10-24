@@ -6,10 +6,12 @@ import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserUpdateRequestDto;
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
+import com.saas.billing_system.user.application.dto.response.UserLockResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLoginResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserRegistrationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserUpdateResponseDto;
 import com.saas.billing_system.user.application.usecase.UserEmailVerificationUseCase;
+import com.saas.billing_system.user.application.usecase.UserLockUseCase;
 import com.saas.billing_system.user.application.usecase.UserLoginUseCase;
 import com.saas.billing_system.user.application.usecase.UserRegistrationUseCase;
 import com.saas.billing_system.user.application.usecase.UserUpdateUseCase;
@@ -40,6 +42,7 @@ public class UserRestController {
   private final UserEmailVerificationUseCase emailVerificationUseCase;
   private final UserLoginUseCase loginUseCase;
   private final UserUpdateUseCase updateUseCase;
+  private final UserLockUseCase lockUseCase;
 
   @GetMapping("/server")
   public String server() {
@@ -118,5 +121,13 @@ public class UserRestController {
     return ResponseEntity.ok(response);
   }
 
+  @PatchMapping("/lock/{userId}")
+  public ResponseEntity<ApiResponseDto<UserLockResponseDto>> lockToggleUser(@PathVariable("userId") String userId) {
+    log.debug("user Lock requested");
+    log.trace("Requeste payload : {}", userId);
+    User user = lockUseCase.toggleLock(userId);
+    ApiResponseDto<UserLockResponseDto> response = ApiResponseDto.create(UserLockResponseDto.fromUser(user));
+    return ResponseEntity.ok(response);
+  }
 
 }

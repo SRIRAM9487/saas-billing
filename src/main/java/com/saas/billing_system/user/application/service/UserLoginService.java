@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserLoginService {
 
-  private final UserRepository userRepo;
   private final RedisEmailService redisEmailService;
   private final Logger log = LoggerFactory.getLogger(UserLoginService.class);
 
@@ -52,16 +51,5 @@ public class UserLoginService {
     return false;
   }
 
-  public Optional<User> findUserById(String username) {
-    log.trace("Find User By Id : {}", username);
-    if (Email.isEmail(username)) {
-      return userRepo.findByEmail_Value(username);
-    }
-    if (username
-        .matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
-      return userRepo.findById(UserId.fromString(username));
-    }
-    return userRepo.findByUserName(username);
-  }
 
 }

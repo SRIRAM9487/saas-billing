@@ -4,6 +4,7 @@ import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirific
 import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.event.LoginVerificationEvent;
 import com.saas.billing_system.user.application.service.JwtService;
+import com.saas.billing_system.user.application.service.UserFactory;
 import com.saas.billing_system.user.application.service.UserLoginService;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.exception.UserException;
@@ -28,6 +29,7 @@ public class UserLoginUseCase {
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
   private final UserLoginService userLoginService;
+  private final UserFactory userFactory;
 
   public String login(UserLoginRequestDto requestDto) {
 
@@ -40,7 +42,7 @@ public class UserLoginUseCase {
     if (!authentication.isAuthenticated())
       throw UserException.authenticationFailed(requestDto.userId());
 
-    User user = userLoginService.findUserById(requestDto.userId()).orElseThrow(() -> {
+    User user = userFactory.findUserById(requestDto.userId()).orElseThrow(() -> {
       return UserException.notFound(requestDto.userId());
     });
 
@@ -62,7 +64,7 @@ public class UserLoginUseCase {
       log.trace("Invalid otp try again");
       throw UserException.invalidOtp(requestDto.email());
     }
-    User user = userLoginService.findUserById(requestDto.email()).orElseThrow(() -> {
+    User user = userFactory.findUserById(requestDto.email()).orElseThrow(() -> {
       return UserException.notFound(requestDto.email());
     });
     String jwt = jwtService.generate(user);
