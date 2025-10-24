@@ -5,11 +5,13 @@ import com.saas.billing_system.user.application.dto.request.UserLoginOtpVeirific
 import com.saas.billing_system.user.application.dto.request.UserLoginRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserRegisterRequestDto;
 import com.saas.billing_system.user.application.dto.request.UserUpdateRequestDto;
+import com.saas.billing_system.user.application.dto.response.UserDeleteResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserEmailVerificationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLockResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserLoginResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserRegistrationResponseDto;
 import com.saas.billing_system.user.application.dto.response.UserUpdateResponseDto;
+import com.saas.billing_system.user.application.usecase.UserDeleteUseCase;
 import com.saas.billing_system.user.application.usecase.UserEmailVerificationUseCase;
 import com.saas.billing_system.user.application.usecase.UserLockUseCase;
 import com.saas.billing_system.user.application.usecase.UserLoginUseCase;
@@ -21,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +46,7 @@ public class UserRestController {
   private final UserLoginUseCase loginUseCase;
   private final UserUpdateUseCase updateUseCase;
   private final UserLockUseCase lockUseCase;
+  private final UserDeleteUseCase deleteUseCase;
 
   @GetMapping("/server")
   public String server() {
@@ -127,6 +131,15 @@ public class UserRestController {
     log.trace("Requeste payload : {}", userId);
     User user = lockUseCase.toggleLock(userId);
     ApiResponseDto<UserLockResponseDto> response = ApiResponseDto.create(UserLockResponseDto.fromUser(user));
+    return ResponseEntity.ok(response);
+  }
+
+  @DeleteMapping("/delete/{userId}")
+  public ResponseEntity<ApiResponseDto<UserDeleteResponseDto>> deleteUser(@PathVariable("userId") String userId) {
+    log.debug("user Lock requested");
+    log.trace("Requeste payload : {}", userId);
+    User user = deleteUseCase.deleteUser(userId);
+    ApiResponseDto<UserDeleteResponseDto> response = ApiResponseDto.create(UserDeleteResponseDto.fromUser(user));
     return ResponseEntity.ok(response);
   }
 

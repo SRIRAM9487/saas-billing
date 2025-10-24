@@ -1,6 +1,5 @@
 package com.saas.billing_system.user.application.usecase;
 
-import com.saas.billing_system.user.application.dto.request.UserDeleteRequestDto;
 import com.saas.billing_system.user.application.service.UserFactory;
 import com.saas.billing_system.user.domain.entity.User;
 import com.saas.billing_system.user.domain.exception.UserException;
@@ -20,16 +19,17 @@ public class UserDeleteUseCase {
   private final UserRepository userRepo;
   private final UserFactory userFactory;
 
-  public User deleteUser(UserDeleteRequestDto requestDto) {
+  public User deleteUser(String userId) {
 
     log.debug("Deleting user");
-    log.debug("User Id : {}", requestDto.userId());
+    log.debug("User Id : {}", userId);
 
-    User user = userFactory.findUserById(requestDto.userId()).orElseThrow(() -> {
+    User user = userFactory.findUserById(userId).orElseThrow(() -> {
       log.trace("User {} not found");
-      return UserException.notFound(requestDto.userId());
+      return UserException.notFound(userId);
     });
 
+    user.softDelete();
     User deletedUser = userRepo.save(user);
     log.trace("User deleted");
     return deletedUser;
