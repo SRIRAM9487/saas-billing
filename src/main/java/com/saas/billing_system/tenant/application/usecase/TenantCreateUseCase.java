@@ -18,16 +18,11 @@ public class TenantCreateUseCase {
 
   private final Logger log = LoggerFactory.getLogger(TenantCreateUseCase.class);
   private final TenantRepository tenantRepo;
-  private final ApiGeneratorUseCase apiGeneratorUseCase;
 
   public Tenant create(TenantCreateRequestDto requestDto, UUID userId) {
     log.trace("creating new tenant.");
-
-    Tenant tenant = tenantRepo.save(TenantCreateRequestDto.toTenant(requestDto,
-        apiGeneratorUseCase.generateApi(userId.toString()), userId));
-
+    Tenant tenant = tenantRepo.save(TenantCreateRequestDto.toTenant(requestDto, userId));
     log.trace("Tenant created {}", tenant.toString());
-
     return tenant;
   }
 

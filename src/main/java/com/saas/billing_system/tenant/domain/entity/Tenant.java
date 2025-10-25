@@ -1,12 +1,14 @@
 package com.saas.billing_system.tenant.domain.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.saas.billing_system.shared.context.UserContext;
+import com.saas.billing_system.shared.context.UserContextHolder;
 import com.saas.billing_system.shared.domain.SoftDelete;
 import com.saas.billing_system.tenant.domain.vo.Address;
 import com.saas.billing_system.tenant.domain.vo.DefaultCurrency;
 import com.saas.billing_system.tenant.domain.vo.TenantId;
-import com.saas.billing_system.user.domain.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -43,8 +45,14 @@ public class Tenant extends SoftDelete {
   @Column(name = "apiKey", nullable = false)
   private String apiKey;
 
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = true)
   private UUID user;
+
+  @Column(name = "createdBy", nullable = true)
+  private UUID apiKeyCreatedBy;
+
+  @Column(name = "createdBy", nullable = true)
+  private LocalDateTime apiKeyCreatedAt;
 
   public static Tenant create(String name,
       String addressLine1,
@@ -67,5 +75,32 @@ public class Tenant extends SoftDelete {
         .defaultCurrency(DefaultCurrency.fromId(currency))
         .apiKey(apiKey)
         .build();
+  }
+
+  public static Tenant create(String name,
+      String addressLine1,
+      String addressLine2,
+      String city,
+      String district,
+      String state,
+      String postalCode,
+      String country,
+      int currency,
+      UUID userId) {
+
+    return Tenant
+        .builder()
+        .id(TenantId.create())
+        .name(name)
+        .address(Address.create(addressLine1, addressLine2, city, district, state, postalCode, country))
+        .user(userId)
+        .defaultCurrency(DefaultCurrency.fromId(currency))
+        .build();
+  }
+
+  public void updateApikey(String apiKey) {
+    this.apiKey = apiKey;
+    this.apiKeyCreatedBy = UserContextHolder.get().getUserId();
+    this.apiKeyCreatedAt = LocalDateTime.now();
   }
 }

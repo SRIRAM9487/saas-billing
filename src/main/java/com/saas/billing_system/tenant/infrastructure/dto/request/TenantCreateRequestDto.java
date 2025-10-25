@@ -32,4 +32,19 @@ public record TenantCreateRequestDto(
         apikey,
         userId);
   }
+
+  public static Tenant toTenant(TenantCreateRequestDto requestDto, UUID userId) {
+
+    return Tenant.create(
+        requestDto.name(),
+        requestDto.addressLine1(),
+        requestDto.addressLine2(),
+        requestDto.city(),
+        requestDto.district(),
+        requestDto.state(),
+        requestDto.postalCode(),
+        requestDto.country(),
+        requestDto.currency(),
+        userId);
+  }
 }
