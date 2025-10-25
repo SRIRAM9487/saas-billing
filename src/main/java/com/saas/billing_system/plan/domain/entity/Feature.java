@@ -47,6 +47,7 @@ public class Feature extends SoftDelete {
 
     return Feature
         .builder()
+    .id(FeatureId.create())
         .name(name)
         .description(description)
         .rateLimit(rateLimit)

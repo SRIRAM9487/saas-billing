@@ -75,6 +75,7 @@ public class Plan extends SoftDelete {
 
     return Plan
         .builder()
+        .id(PlanId.create())
         .name(name)
         .description(description)
         .defaultCurrency(DefaultCurrency.valueOf(defaultCurrency))

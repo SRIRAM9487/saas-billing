@@ -18,6 +18,7 @@ public record PlanDetailsResponseDto(
     int durationInDays,
     double remaindingDays,
     String quality,
+    String tenantId,
     List<FeatureDetailsResponseDto> features) {
 
   public static PlanDetailsResponseDto fromPlan(Plan plan, List<Feature> features) {
@@ -36,6 +37,7 @@ public record PlanDetailsResponseDto(
         plan.getDurationInDays(),
         plan.getRemainingDays(),
         plan.getQuality().name(),
+        plan.getTenant().toString(),
         feature);
   }
 }

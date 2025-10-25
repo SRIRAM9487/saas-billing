@@ -11,6 +11,8 @@ import com.saas.billing_system.plan.infrastructure.dto.request.feature.FeatureUp
 import com.saas.billing_system.plan.infrastructure.dto.request.plan.PlanUpdateRequestDto;
 import com.saas.billing_system.plan.infrastructure.dto.response.plan.PlanUpdateResponseDto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -19,18 +21,22 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PlanUpdateUseCase {
 
-  private final PlanService planService;
-  private final FeatureService featureService;
+    private static final Logger log = LoggerFactory.getLogger(PlanUpdateUseCase.class);
 
-  public PlanUpdateResponseDto planUpdateUseCase(String planId, PlanUpdateRequestDto requestDto) {
+    private final PlanService planService;
+    private final FeatureService featureService;
 
-    Plan plan = planService.update(planId, requestDto);
-    List<Feature> features = new ArrayList<>();
+    public PlanUpdateResponseDto planUpdateUseCase(String planId, PlanUpdateRequestDto requestDto) {
+        log.debug("Use case: Updating plan ID: {} with {} features", planId, requestDto.features().size());
+        Plan plan = planService.update(planId, requestDto);
+        List<Feature> features = new ArrayList<>();
 
-    for (FeatureUpdateRequestDto dto : requestDto.features())
-      features.add(featureService.update(dto));
+        for (FeatureUpdateRequestDto dto : requestDto.features()) {
+            features.add(featureService.update(dto));
+        }
 
-    return PlanUpdateRequestDto.create(plan, features);
-  }
-
+        PlanUpdateResponseDto response = PlanUpdateRequestDto.create(plan, features);
+        log.info("Plan update use case completed for plan ID: {}", planId);
+        return response;
+    }
 }
