@@ -16,7 +16,7 @@ public class FeatureDeleteUseCase {
 
   public FeatureDeleteResponseDto delete(String featureId) {
     Feature feature = featureService.delete(featureId);
-    return FeatureDeleteResponseDto.fromuser(feature);
+    return FeatureDeleteResponseDto.fromFeature(feature);
   }
 
 }

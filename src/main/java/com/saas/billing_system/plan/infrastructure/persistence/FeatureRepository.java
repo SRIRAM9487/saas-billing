@@ -16,4 +16,5 @@ public interface FeatureRepository extends JpaRepository<Feature, FeatureId> {
   Optional<Feature> findByPlan(UUID plan);
 
   List<Feature> findAllByPlan(UUID plan);
+
 }

@@ -17,4 +17,12 @@ public record FeatureCreateRequestDto(
         requestDto.rateLimit(),
         requestDto.plan());
   }
+
+  public static Feature toFeature(String plan, FeatureCreateRequestDto requestDto) {
+    return Feature.create(
+        requestDto.name(),
+        requestDto.description(),
+        requestDto.rateLimit(),
+        UUID.fromString(plan));
+  }
 }

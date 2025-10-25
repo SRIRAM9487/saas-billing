@@ -18,6 +18,11 @@ public class PlanFactory {
 
   public final PlanRepository planRepo;
 
+  public List<Plan> getAll() {
+    List<Plan> plans = planRepo.findAll();
+    return plans;
+  }
+
   public Plan getById(String id) {
     return planRepo.findById(PlanId.create(id)).orElseThrow(() -> {
       return PlanException.notFound(id);
@@ -30,13 +35,7 @@ public class PlanFactory {
     });
   }
 
-  public List<Plan> getAll() {
-    List<Plan> plans = planRepo.findAll();
-
-    if (plans == null || plans.size() == 0)
-      throw PlanException.notFound();
-
-    return plans;
+  public List<Plan> getAllByTenant(String id) {
+    return planRepo.findAllByTenant(UUID.fromString(id));
   }
-
 }

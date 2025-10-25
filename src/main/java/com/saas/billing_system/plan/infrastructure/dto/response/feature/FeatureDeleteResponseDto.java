@@ -6,7 +6,7 @@ public record FeatureDeleteResponseDto(
   String feature
 ) {
 
-  public static FeatureDeleteResponseDto fromuser(Feature feature){
+  public static FeatureDeleteResponseDto fromFeature(Feature feature){
     return new FeatureDeleteResponseDto(feature.getName());
   }
 }

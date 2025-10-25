@@ -12,6 +12,7 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "plan")
 public class Plan extends SoftDelete {
 
@@ -51,12 +53,39 @@ public class Plan extends SoftDelete {
   @Column(name = "duration_in_days", nullable = false)
   private int durationInDays;
 
-  @Column(name = "remaiding_days", nullable = false)
-  private double remaindingDays;
+  @Column(name = "remaining_days", nullable = false)
+  private double remainingDays;
 
   @Column(name = "quality", nullable = false)
   private PlanQuality quality;
 
-  @Column(name = "tenant_id",nullable = false)
+  @Column(name = "tenant_id", nullable = false)
   private UUID tenant;
+
+  public static Plan create(
+      String tenant,
+      String name,
+      String description,
+      String defaultCurrency,
+      long basePrice,
+      long taxPrice,
+      boolean taxIncluded,
+      int durationInDays,
+      String quality) {
+
+    return Plan
+        .builder()
+        .name(name)
+        .description(description)
+        .defaultCurrency(DefaultCurrency.valueOf(defaultCurrency))
+        .basePrice(basePrice)
+        .taxPrice(taxPrice)
+        .totalPrice(taxPrice + basePrice)
+        .taxIncluded(taxIncluded)
+        .durationInDays(durationInDays)
+        .remainingDays(durationInDays)
+        .quality(PlanQuality.valueOf(quality))
+        .tenant(UUID.fromString(tenant))
+        .build();
+  }
 }
