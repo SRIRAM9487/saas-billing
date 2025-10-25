@@ -1,5 +1,7 @@
 package com.saas.billing_system.plan.domain.entity;
 
+import java.util.UUID;
+
 import com.saas.billing_system.plan.domain.vo.PlanId;
 import com.saas.billing_system.plan.domain.vo.PlanQuality;
 import com.saas.billing_system.shared.domain.SoftDelete;
@@ -26,15 +28,12 @@ public class Plan extends SoftDelete {
   private PlanId id;
 
   @Column(name = "name", nullable = false)
-  private String planName;
+  private String name;
 
   @Column(name = "description", nullable = false)
   private String description;
 
-  @Column(name = "tax_included", nullable = false)
-  private boolean taxIncluded;
-
-  @Column(name = "currency_type", nullable = false)
+  @Column(name = "default_currency", nullable = false)
   private DefaultCurrency defaultCurrency;
 
   @Column(name = "base_price", nullable = false)
@@ -46,19 +45,18 @@ public class Plan extends SoftDelete {
   @Column(name = "total_price", nullable = false)
   private double totalPrice;
 
-  @Column(name = "plan_days", nullable = false)
-  private int days;
+  @Column(name = "tax_included", nullable = false)
+  private boolean taxIncluded;
 
-  @Column(name = "plan_months", nullable = false)
-  private byte months;
+  @Column(name = "duration_in_days", nullable = false)
+  private int durationInDays;
 
-  @Column(name = "plan_years", nullable = false)
-  private double years;
+  @Column(name = "remaiding_days", nullable = false)
+  private double remaindingDays;
 
-  @Column(name = "remaider", nullable = false)
-  private double remainderDate;
-
-  @Column(name = "plan_quality", nullable = false)
+  @Column(name = "quality", nullable = false)
   private PlanQuality quality;
 
+  @Column(name = "tenant_id",nullable = false)
+  private UUID tenant;
 }

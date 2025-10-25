@@ -119,7 +119,7 @@ public class UserRestController {
     return ResponseEntity.ok(response);
   }
 
-  @PostMapping("/update/{userId}")
+  @PatchMapping("/update/{userId}")
   public ResponseEntity<ApiResponseDto<UserUpdateResponseDto>> updateUser(@PathVariable("userId") String userId,
       @RequestBody(required = true) UserUpdateRequestDto requestDto) {
     log.debug("user update requested");

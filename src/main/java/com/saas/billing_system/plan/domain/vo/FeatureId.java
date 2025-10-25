@@ -8,4 +8,8 @@ public record FeatureId(UUID id) {
     return new FeatureId(UUID.randomUUID());
   }
 
+  public static FeatureId create(String id) {
+    return new FeatureId(UUID.fromString(id));
+  }
+
 }

@@ -25,6 +25,23 @@ public class TenantService {
   private final TenantRepository tenantRepo;
   private final TenantFactory tenantFactory;
 
+  public List<Tenant> getAll() {
+    List<Tenant> tenants = tenantFactory.findAll();
+    if (tenants == null)
+      throw TenantException.notFound();
+    return tenants;
+  }
+
+  public Tenant getTenantByUserId(String id) {
+
+    Tenant tenant = tenantFactory.findTenantByUserId(UUID.fromString(id)).orElseThrow(() -> {
+      log.trace("Tenant not found : ", id);
+      return TenantException.notFound(id);
+    });
+
+    return tenant;
+  }
+
   public Tenant create(TenantCreateRequestDto requestDto, UUID userId) {
     log.trace("creating new tenant.");
     Tenant tenant = tenantRepo.save(TenantCreateRequestDto.toTenant(requestDto, userId));
@@ -48,23 +65,6 @@ public class TenantService {
   public Tenant getTenantById(String id) {
 
     Tenant tenant = tenantFactory.findTenantById(id).orElseThrow(() -> {
-      log.trace("Tenant not found : ", id);
-      return TenantException.notFound(id);
-    });
-
-    return tenant;
-  }
-
-  public List<Tenant> getAll() {
-    List<Tenant> tenants = tenantFactory.findAll();
-    if (tenants == null)
-      throw TenantException.notFound();
-    return tenants;
-  }
-
-  public Tenant getTenantByUserId(String id) {
-
-    Tenant tenant = tenantFactory.findTenantByUserId(UUID.fromString(id)).orElseThrow(() -> {
       log.trace("Tenant not found : ", id);
       return TenantException.notFound(id);
     });

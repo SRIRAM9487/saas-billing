@@ -11,4 +11,7 @@ public record PlanId(UUID id) {
     return new PlanId(UUID.randomUUID());
   }
 
+  public static PlanId create(String id) {
+    return new PlanId(UUID.fromString(id));
+  }
 }

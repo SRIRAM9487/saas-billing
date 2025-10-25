@@ -1,14 +1,12 @@
 package com.saas.billing_system.tenant.infrastructure.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.saas.billing_system.shared.dto.response.ApiResponseDto;
 import com.saas.billing_system.tenant.application.usecase.TenantDeleteUseCase;
 import com.saas.billing_system.tenant.application.usecase.TenantDetailsUseCase;
 import com.saas.billing_system.tenant.application.usecase.TenantRegistrationUsecase;
 import com.saas.billing_system.tenant.application.usecase.TenantUpdateUseCase;
-import com.saas.billing_system.tenant.domain.entity.Tenant;
 import com.saas.billing_system.tenant.infrastructure.dto.request.TenantCreateRequestDto;
 import com.saas.billing_system.tenant.infrastructure.dto.request.TenantUpdateRequestDto;
 import com.saas.billing_system.tenant.infrastructure.dto.response.TenantCreateResponseDto;
@@ -21,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,7 +68,7 @@ public class TenantController {
     return ResponseEntity.ok(response);
   }
 
-  @PostMapping("/update/{userId}")
+  @PatchMapping("/update/{userId}")
   public ResponseEntity<ApiResponseDto<TenantUpdateResponseDto>> update(
       @PathVariable("userId") String userId,
       @RequestBody TenantUpdateRequestDto requestDto) {
