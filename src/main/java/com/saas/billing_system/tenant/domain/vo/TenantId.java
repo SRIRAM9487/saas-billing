@@ -10,4 +10,7 @@ public record TenantId(UUID id) {
   public static TenantId create() {
     return new TenantId(UUID.randomUUID());
   }
+  public static TenantId create(String id) {
+    return new TenantId(UUID.fromString(id));
+  }
 }

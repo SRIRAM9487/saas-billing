@@ -9,6 +9,11 @@ public class TenantException extends BaseException {
     super(message, logMessage, code);
   }
 
+  public static TenantException notFound() {
+    String message = "Tenant not found";
+    return new TenantException(message, message, TenantExceptionType.TENANT_NOT_FOUND.name());
+  }
+
   public static TenantException notFound(String id) {
     String message = "Tenant with user id " + id + " not found";
     return new TenantException(message, message, TenantExceptionType.TENANT_NOT_FOUND.name());

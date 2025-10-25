@@ -3,7 +3,6 @@ package com.saas.billing_system.tenant.domain.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.saas.billing_system.shared.context.UserContext;
 import com.saas.billing_system.shared.context.UserContextHolder;
 import com.saas.billing_system.shared.domain.SoftDelete;
 import com.saas.billing_system.tenant.domain.vo.Address;
@@ -39,19 +38,19 @@ public class Tenant extends SoftDelete {
   @Embedded
   private Address address;
 
-  @Column(name = "defaultCurrency", nullable = false)
+  @Column(name = "default_currency", nullable = false)
   private DefaultCurrency defaultCurrency;
 
-  @Column(name = "apiKey", nullable = false)
+  @Column(name = "api_key", nullable = true)
   private String apiKey;
 
   @Column(name = "user_id", nullable = true)
   private UUID user;
 
-  @Column(name = "createdBy", nullable = true)
+  @Column(name = "api_created_by", nullable = true)
   private UUID apiKeyCreatedBy;
 
-  @Column(name = "createdBy", nullable = true)
+  @Column(name = "api_created_at", nullable = true)
   private LocalDateTime apiKeyCreatedAt;
 
   public static Tenant create(String name,

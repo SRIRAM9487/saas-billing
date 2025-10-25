@@ -20,37 +20,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TenantApiKeyGenerationUseCase {
 
-  private final Logger log = LoggerFactory.getLogger(TenantApiKeyGenerationUseCase.class);
+  private static final Logger log = LoggerFactory.getLogger(TenantApiKeyGenerationUseCase.class);
   private final ApiKeyService apiKeyService;
   private final TenantRepository tenantRepo;
   private final UserFactory userFactory;
 
   public String generateApiKey(String userId) {
-
-    log.trace("Generating Api Key");
+    log.info("Generating API key for userId: {}", userId);
 
     User user = userFactory.findUserById(userId).orElseThrow(() -> {
-      log.trace("User not found : {}", userId);
+      log.warn("User not found: {}", userId);
       return UserException.notFound();
     });
 
     Tenant tenant = tenantRepo.findTenantByUser(user.getId().id()).orElseThrow(() -> {
-      log.trace("Tenant with id not found : {}", userId);
+      log.warn("Tenant not found for userId: {}", userId);
       return TenantException.notFound(userId);
     });
 
     Map<String, String> key = apiKeyService.generateApi(userId);
-
     String apiKey = key.get("key");
     String hash = key.get("hash");
 
     tenant.updateApikey(hash);
-
     tenantRepo.save(tenant);
 
-    log.trace("Api Key generated and tenant details updated");
-
+    log.info("API key generated and saved for tenant ID: {}", tenant.getId());
     return apiKey;
   }
-
 }

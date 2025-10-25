@@ -61,5 +61,4 @@ public class Plan extends SoftDelete {
   @Column(name = "plan_quality", nullable = false)
   private PlanQuality quality;
 
-
 }

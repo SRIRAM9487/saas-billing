@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ApiKeyService {
+
   private final ApiKeySecurityService apiKeySecurityService;
   private final Logger log = LoggerFactory.getLogger(ApiKeyService.class);
 
