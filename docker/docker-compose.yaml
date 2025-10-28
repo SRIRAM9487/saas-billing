@@ -15,3 +15,12 @@ services:
     container_name: billing_cache_1
     ports:
       - "6379:6379"
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 1234

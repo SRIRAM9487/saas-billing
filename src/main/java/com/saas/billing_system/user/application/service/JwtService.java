@@ -61,9 +61,9 @@ public class JwtService {
 
   public boolean validate(String token, UUID userId) {
     String tokenUserId = extractUserId(token);
-    LOG.trace("Validating token : {} user : {}",token,userId);
-    boolean valid =(tokenUserId.equals(userId.toString()) && !isTokenExpired(token));
-      LOG.trace("Is Token Valid : {}",valid);
+    LOG.trace("Validating token : {} user : {}", token, userId);
+    boolean valid = (tokenUserId.equals(userId.toString()) && !isTokenExpired(token));
+    LOG.trace("Is Token Valid : {}", valid);
     return valid;
   }
 

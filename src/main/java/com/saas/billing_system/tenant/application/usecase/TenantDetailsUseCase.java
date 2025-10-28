@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import com.saas.billing_system.tenant.application.service.TenantService;
 import com.saas.billing_system.tenant.domain.entity.Tenant;
-import com.saas.billing_system.tenant.infrastructure.dto.response.TenantDeleteResponsetDto;
 import com.saas.billing_system.tenant.infrastructure.dto.response.TenantDetailsResponseDto;
 import com.saas.billing_system.user.application.service.UserDetailsUseCase;
 import com.saas.billing_system.user.domain.entity.User;

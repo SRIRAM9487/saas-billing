@@ -1,0 +1,9 @@
+Users:
+=> tenant,Sudo,Admin
+=> user have paswword
+=> jwt for token verification
+=> VerifiedType : PENDING,VERIFIED
+=> UserRole: SUDO,ADMIN,TENANT
+=> CRUD
+=> LOGIN / LOGIN OTP VERIFICATION
+=> EMAIL VERIFY(NOTIFICATION) / EMAIL VERIFICATION
